@@ -1,17 +1,18 @@
-import { LayoutType } from "../types/types";
+import React from "react";
 import Header from "../components/common/Header";
+import { Outlet } from "react-router-dom";
 import Footer from "../components/common/Footer";
 
-const Layout = ({ children }: LayoutType) => {
+function MainLayoutOutlet() {
     return (
         <div>
             <Header />
 
-            <main>{children}</main>
+            <main><Outlet /></main>
 
             <Footer />
         </div>
     );
-};
+}
 
-export default Layout;
+export default MainLayoutOutlet;
