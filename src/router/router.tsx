@@ -9,38 +9,36 @@ import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
 import TokenGet from "../pages/TokenGet";
 
 export const router = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <MainLayoutOutlet />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
         path: "/",
-        //element: WithMainLayout(Main)({}),
-        element: <MainLayoutOutlet />,
-        errorElement: <ErrorPage />,
+        element: <Main />,
+      },
+      {
+        element: <PrivateRoutes />,
         children: [
-            {
-                path: "/",
-                element: <Main />,
-            },
-            {
-                element: <PrivateRoutes />,
-                children: [
-
-                    {
-                        path: "/test",
-                        element: <LoggedInTest />,
-                    },
-                ],
-            },
+          {
+            path: "/test",
+            element: <LoggedInTest />,
+          },
         ],
-    },
-    {
-        path: "/login",
-        element: <LoginTest />,
-    },
-    {
-        path: "/token/:token",
-        element: <TokenGet />
-    },
-    {
-      path: "/testlogin",
-      element: <Test />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <LoginTest />,
+  },
+  {
+    path: "/token/:token",
+    element: <TokenGet />,
+  },
+  {
+    path: "/testlogin",
+    element: <Test />,
   },
 ]);

@@ -1,13 +1,22 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { User } from '../types/User';
-import { fetchMe } from '../api/api';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { User } from "../types/User";
+import { fetchMe } from "../api/api";
 
 interface AuthContextType {
   loggedUser: null | User;
   isLoading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({ loggedUser: null, isLoading: true });
+const AuthContext = createContext<AuthContextType>({
+  loggedUser: null,
+  isLoading: true,
+});
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loggedUser, setLoggedUser] = useState<null | User>(null);
@@ -25,7 +34,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           // localStorage.removeItem('token');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
