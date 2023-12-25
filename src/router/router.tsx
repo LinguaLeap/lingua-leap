@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../pages/Main";
 import PrivateRoutes from "../middlewares/PrivateRoutes";
-import ErrorPage from "./ErrorPage";
-import LoggedInTest from "./LoggedInTest";
-import LoginTest from "./LoginTest";
-import Test from "./Test";
+import ErrorPage from "../pages/ErrorPage";
+import LoggedInTest from "../pages/LoggedInTest";
+import LoginTest from "../pages/LoginTest";
+import Test from "../pages/Test";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
+import TokenGet from "../pages/TokenGet";
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
     {
         path: "/login",
         element: <LoginTest />,
+    },
+    {
+        path: "/token/:token",
+        element: <TokenGet />
     },
     {
       path: "/testlogin",
