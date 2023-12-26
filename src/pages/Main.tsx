@@ -1,5 +1,5 @@
-const Main = () => {
-  return <>I am main page</>;
-};
+function Home() {
+  return <div>There are a lot of user</div>;
+}
 
-export default Main;
+export default Home;

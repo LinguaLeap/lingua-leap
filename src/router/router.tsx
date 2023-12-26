@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../pages/Main";
+import Home from "../pages/Home";
 import PrivateRoutes from "../middlewares/PrivateRoutes";
 import ErrorPage from "../pages/ErrorPage";
-import LoggedInTest from "../pages/LoggedInTest";
+import Main from "../pages/Main";
 import LoginTest from "../pages/LoginTest";
 import Test from "../pages/Test";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
@@ -16,14 +16,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Main />,
+        element: <Home />,
       },
       {
         element: <PrivateRoutes />,
         children: [
           {
-            path: "/test",
-            element: <LoggedInTest />,
+            path: "/community",
+            element: <Main />,
           },
         ],
       },
