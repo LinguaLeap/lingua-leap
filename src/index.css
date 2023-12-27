@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .pr-btn {
-  @apply flex flex-row gap-x-3 items-center hover:bg-slate-800 p-2 rounded;
+  @apply flex flex-row gap-x-3 items-center bg-slate-900 hover:bg-slate-800 p-2 rounded w-max text-white;
 }
 .content-wrapper {
   @apply max-w-screen-xl;

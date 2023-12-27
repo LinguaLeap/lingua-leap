@@ -3,10 +3,13 @@ import Home from "../pages/Home";
 import PrivateRoutes from "../middlewares/PrivateRoutes";
 import ErrorPage from "../pages/ErrorPage";
 import Main from "../pages/Main";
-import LoginTest from "../pages/LoginTest";
+import Login from "../pages/Login";
 import Test from "../pages/Test";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
 import TokenGet from "../pages/TokenGet";
+import RegistrationForm from "../components/forms/RegistrationForm";
+import EditProfile from "../components/EditProfile";
+import Profile from "../components/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -27,11 +30,23 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/registration",
+        element: <RegistrationForm />,
+      },
+      {
+        path: "/my-profile",
+        element: <Profile />,
+      },
+      {
+        path: "/edit-profile",
+        element: <EditProfile />,
+      },
     ],
-  },
-  {
-    path: "/login",
-    element: <LoginTest />,
   },
   {
     path: "/token/:token",

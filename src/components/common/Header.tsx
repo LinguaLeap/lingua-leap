@@ -11,7 +11,13 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLoginButtonClick = () => {
+    navigate("/login");
     console.log("You click on login  button");
+  };
+
+  const handleSingUpButtonClick = () => {
+    navigate("/registration");
+    console.log("You click on registration  button");
   };
 
   const handleCommunityButtonClick = () => {
@@ -36,14 +42,24 @@ const Header = () => {
       </div>
       <div className="flex flex-row gap-4">
         {!loggedUser ? (
-          <button
-            title="Click to login"
-            onClick={handleLoginButtonClick}
-            className="pr-btn"
-          >
-            <IoMdLogIn color="white" size={20} />
-            <span className="text-white">Login</span>
-          </button>
+          <>
+            <button
+              title="Click to login"
+              onClick={handleLoginButtonClick}
+              className="pr-btn"
+            >
+              <IoMdLogIn color="white" size={20} />
+              <span className="text-white">Login</span>
+            </button>
+            <button
+              title="Click to Registration"
+              onClick={handleSingUpButtonClick}
+              className="pr-btn"
+            >
+              <IoMdLogIn color="white" size={20} />
+              <span className="text-white">Sing Up</span>
+            </button>
+          </>
         ) : (
           <>
             <button onClick={handleCommunityButtonClick} className="pr-btn">

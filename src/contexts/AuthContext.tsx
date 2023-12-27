@@ -5,11 +5,11 @@ import {
   useEffect,
   useState,
 } from "react";
-import { User } from "../types/User";
+import { UserType } from "../types/User";
 import { fetchMe } from "../api/api";
 
 interface AuthContextType {
-  loggedUser: null | User;
+  loggedUser: null | UserType;
   isLoading: boolean;
 }
 
@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [loggedUser, setLoggedUser] = useState<null | User>(null);
+  const [loggedUser, setLoggedUser] = useState<null | UserType>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { user } = await fetchMe();
         console.log(user);
         if (user) {
-          setLoggedUser(user as User);
+          setLoggedUser(user as UserType);
         } else {
           setLoggedUser(null);
           // localStorage.removeItem('token');
