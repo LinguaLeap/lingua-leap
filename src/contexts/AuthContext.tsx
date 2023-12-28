@@ -34,7 +34,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           // localStorage.removeItem('token');
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        //console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }

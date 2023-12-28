@@ -11,6 +11,7 @@ interface CustomSelectProps extends FieldProps {
   isMulti?: boolean;
   className?: string;
   placeholder?: string;
+  onChangeField?: (newValue: MultiValue<Option> | SingleValue<Option>) => void;
 }
 
 export const CustomSelect = ({
@@ -20,7 +21,14 @@ export const CustomSelect = ({
   form,
   options,
   isMulti = false,
+  onChangeField,
 }: CustomSelectProps) => {
+  const handleChangeField = (
+    newValue: MultiValue<Option> | SingleValue<Option>
+  ) => {
+    console.log(newValue);
+    onChangeField && onChangeField(newValue);
+  };
   const onChange = (newValue: MultiValue<Option> | SingleValue<Option>) => {
     if (Array.isArray(newValue)) {
       form.setFieldValue(
@@ -34,15 +42,17 @@ export const CustomSelect = ({
     ) {
       form.setFieldValue(field.name, newValue.value);
     }
+    handleChangeField(newValue);
   };
 
   const getValue = () => {
     if (options) {
       return isMulti
-        ? options.filter(
-            (option: Option) =>
-              (field.value ?? []).indexOf(option.value ?? "") >= 0
-          )
+        ? Array.isArray(field.value)
+          ? options.filter(
+              (option: Option) => field.value.indexOf(option.value ?? "") >= 0
+            )
+          : []
         : options.find((option: Option) => option.value === field.value);
     } else {
       return isMulti ? [] : ({ label: "", value: "" } as Option);

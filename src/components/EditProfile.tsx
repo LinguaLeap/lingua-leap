@@ -1,11 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import { useAuth } from "../contexts/AuthContext";
-import CustomSelect from "./CustomSelect";
-import languageJson from "../static/languages.json";
+//import languageJson from "../static/languages.json";
 
 const EditProfile = () => {
   const { loggedUser } = useAuth();
-  const languageOptions = languageJson;
+  //const languageOptions = languageJson;
 
   if (!loggedUser) {
     return <div>Loading...</div>;
@@ -77,27 +76,27 @@ const EditProfile = () => {
           <label className="min-w-40 text-right" htmlFor="mainLanguage">
             Main Language
           </label>
-          <Field
+          {/* <Field
             className="mainLanguage"
             name="mainLanguage"
             options={languageOptions}
             component={CustomSelect}
             placeholder="Select multi languages..."
             isMulti={true}
-          />
+          /> */}
         </div>
         <div className="flex flex-row gap-4 items-center my-4">
           <label className="min-w-40 text-right" htmlFor="otherLanguages">
             Other Languages
           </label>
-          <Field
+          {/* <Field
             className="otherLanguages"
             name="otherLanguages"
             options={languageOptions}
             component={CustomSelect}
             placeholder="Select multi languages..."
             isMulti={true}
-          />
+          /> */}
         </div>
         <button type="submit" className="pr-btn place-self-end">
           Submit

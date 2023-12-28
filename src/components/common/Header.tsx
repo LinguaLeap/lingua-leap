@@ -5,8 +5,9 @@ import { GoPeople } from "react-icons/go";
 import { TiMessages } from "react-icons/ti";
 import { CiUser } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { memo } from "react";
 
-const Header = () => {
+const Header = memo(() => {
   const { loggedUser } = useAuth();
   const navigate = useNavigate();
 
@@ -79,6 +80,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;

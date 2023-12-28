@@ -1,5 +1,14 @@
-import { ReactNode } from "react";
+export type LoginType = {
+  email: string;
+  password: string;
+};
 
-export type LayoutType = {
-  children: ReactNode;
+export type RegistrationType = {
+  displayName: string;
+  givenName: string;
+  familyName: string;
+  emails: string;
+  mainLanguage: string[];
+  otherLanguages: string[];
+  password: string;
 };
