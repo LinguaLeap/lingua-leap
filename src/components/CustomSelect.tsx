@@ -1,18 +1,5 @@
-import { FieldProps } from "formik";
 import Select, { SingleValue, MultiValue } from "react-select";
-
-interface Option {
-  label: string;
-  value: string;
-}
-
-interface CustomSelectProps extends FieldProps {
-  options: Option[];
-  isMulti?: boolean;
-  className?: string;
-  placeholder?: string;
-  onChangeField?: (newValue: MultiValue<Option> | SingleValue<Option>) => void;
-}
+import { CustomSelectProps, Option } from "../types/Types";
 
 export const CustomSelect = ({
   className,
@@ -26,9 +13,9 @@ export const CustomSelect = ({
   const handleChangeField = (
     newValue: MultiValue<Option> | SingleValue<Option>
   ) => {
-    console.log(newValue);
     onChangeField && onChangeField(newValue);
   };
+
   const onChange = (newValue: MultiValue<Option> | SingleValue<Option>) => {
     if (Array.isArray(newValue)) {
       form.setFieldValue(

@@ -1,28 +1,35 @@
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FormikHelpers } from "formik";
 import GoogleButton from "../common/GoogleButton";
 import languageOptions from "../../static/languages.json";
+import countryOptions from "../../static/countries.json";
 import { useState } from "react";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomSelect from "../CustomSelect";
 import { memo } from "react";
+import { Option, RegistrationType, StudyLanguages } from "../../types/Types";
+import { register } from "../../api/api";
 
 const SignupSchema = Yup.object().shape({
   givenName: Yup.string().required("Required"),
   familyName: Yup.string().required("Required"),
-  emails: Yup.string().email("Invalid Email").required("Required"),
   password: Yup.string().min(8, "Too Short!").required("Required"),
 });
-
-interface Option {
-  label: string;
-  value: string;
-}
 
 const RegistrationForm = memo(() => {
   const [startDate, setStartDate] = useState(new Date());
   const [languages, setLanguages] = useState<Option[]>([]);
+
+  const handleRegistrationFormSubmit = async (
+    data: RegistrationType,
+    actions: FormikHelpers<RegistrationType>
+  ) => {
+    const status = await register(data);
+    if (status === 200) {
+      actions.resetForm();
+    }
+  };
 
   return (
     <div className="max-w-screen-sm mx-auto my-12">
@@ -32,21 +39,30 @@ const RegistrationForm = memo(() => {
       </div>
       <Formik
         initialValues={{
-          birthday: Date,
+          birthDate: new Date(),
           emails: "",
           familyName: "",
           gender: "",
           givenName: "",
-          mainLanguage: [],
-          otherLanguages: [] as { language: ""; level: "" }[],
+          country: "",
+          mainLanguage: "",
+          otherLanguages: [] as StudyLanguages[],
           password: "",
         }}
         validationSchema={SignupSchema}
-        onSubmit={async (values) => {
-          console.log(JSON.stringify(values, null, 2));
+        onSubmit={async (values, actions) => {
+          const { languages, emails, ...submitValues } = values;
+          const emailValues = [{ value: values.emails }];
+          handleRegistrationFormSubmit(
+            {
+              ...submitValues,
+              emails: emailValues,
+            },
+            actions
+          );
         }}
       >
-        {({ values, errors }) => (
+        {({ values, errors, setFieldValue }) => (
           <Form className="flex flex-col max-w-screen-sm mx-auto my-7 ">
             <div className="flex flex-row gap-4 items-center my-4">
               <label className="min-w-40 text-right" htmlFor="givenName">
@@ -81,6 +97,27 @@ const RegistrationForm = memo(() => {
               </div>
             </div>
             <div className="flex flex-row gap-4 items-center my-4">
+              <label className="min-w-40 text-right" htmlFor="country">
+                Country
+              </label>
+              <div className="flex flex-col w-full">
+                <Field
+                  name="country"
+                  options={countryOptions}
+                  component={CustomSelect}
+                  isMulti={false}
+                  onChangeField={(newValue: Option) => {
+                    console.log(newValue);
+                    setFieldValue(`country`, newValue.label);
+                  }}
+                />
+
+                {errors.familyName && (
+                  <div className="text-red-600">{errors.country}</div>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-row gap-4 items-center my-4">
               <label className="min-w-40 text-right" htmlFor="familyName">
                 Gender
               </label>
@@ -100,11 +137,11 @@ const RegistrationForm = memo(() => {
               </div>
             </div>
             <div className="flex flex-row gap-4 items-center my-4">
-              <label className="min-w-40 text-right" htmlFor="birthday">
-                Birthday
+              <label className="min-w-40 text-right" htmlFor="birthDate">
+                birthDate
               </label>
               <DatePicker
-                name="birthday"
+                name="birthDate"
                 selected={startDate}
                 onChange={(date: Date) => setStartDate(date)}
               />
@@ -151,12 +188,13 @@ const RegistrationForm = memo(() => {
               <div className="flex flex-col w-full">
                 <div className="flex flex-col w-full">
                   <Field
-                    name="['otherLanguages.language']"
+                    name="languages"
                     options={languageOptions}
                     component={CustomSelect}
                     placeholder="Select multi languages..."
                     onChangeField={setLanguages}
                     isMulti={true}
+                    touched
                   />
                 </div>
 
@@ -172,12 +210,19 @@ const RegistrationForm = memo(() => {
                             {item.label}
                           </label>
                         </div>
-                        <Field as="input" name="['otherLanguages.language']" />
                         <Field
                           key={`level-${item}`}
                           as="select"
-                          name="['otherLanguages.level']"
+                          name="otherLanguages.level"
                           className="w-full"
+                          onChange={(
+                            e: React.ChangeEvent<HTMLSelectElement>
+                          ) => {
+                            setFieldValue(`otherLanguages[${index}]`, {
+                              language: item.value,
+                              level: e.target.value,
+                            });
+                          }}
                         >
                           <option value="None">Choise Value</option>
                           <option value="1">Begginer</option>

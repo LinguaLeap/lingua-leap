@@ -34,9 +34,13 @@ export const login = async (params: LoginType) => {
 };
 
 export const register = async (params: RegistrationType) => {
-  const { data } = await axios.post(
+  const { data, status } = await axios.post(
     `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/register`,
     params
   );
-  return data;
+  if (status === 200) {
+    localStorage.setItem("token", data.token);
+  }
+
+  return status;
 };
