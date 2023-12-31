@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { getConversationsList } from "../../../api/api";
 import ConversationItem from "./ConversationItem";
+import { ConversationItemType } from "../../../types/Conversations";
 
 function ConversationsList() {
     const { isLoading, error, data, isFetching } = useQuery(
@@ -9,17 +10,15 @@ function ConversationsList() {
     );
 
     if (isLoading) return "Loading...";
-        console.log(data)
     if (error) return "An error has occurred: " + error.message;
-  return (
-    <div>
-        {
-            data.map((conversation, index) => (
+    
+    return (
+        <div>
+            {data.map((conversation: ConversationItemType, index) => (
                 <ConversationItem key={index} conversation={conversation} />
-            ))
-        }
-    </div>
-  )
+            ))}
+        </div>
+    );
 }
 
-export default ConversationsList
+export default ConversationsList;
