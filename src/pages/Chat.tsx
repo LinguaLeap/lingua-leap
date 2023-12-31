@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { io } from "socket.io-client";
 import ConversationsList from "../components/Chat/Conversations/ConversationsList";
-import Messages from "../components/Chat/Messages";
+import Messages from "../components/Chat/Messages/Messages";
 
 function Chat() {
     const { loggedUser, isLoading } = useAuth();
