@@ -24,7 +24,7 @@ const Header = memo(() => {
   }, [navigate]);
 
   const handleMessagesButtonClick = useCallback(() => {
-    navigate("/conversations");
+    navigate("/messages");
   }, [navigate]);
 
   const handleProfileButtonClick = useCallback(() => {
