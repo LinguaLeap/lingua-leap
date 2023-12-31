@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginType, RegistrationType } from "../types/Types";
+import { LoginType, RegistrationType, UpdateProfileType } from "../types/Types";
 
 axios.interceptors.request.use(
   function (config) {
@@ -8,9 +8,10 @@ axios.interceptors.request.use(
 
     const token = localStorage.getItem("token");
 
-    if (allowedOrigins.includes(origin)) {
-      config.headers.authorization = token;
-    }
+    console.log(allowedOrigins, origin);
+    //if (allowedOrigins.includes(origin)) {
+    config.headers.authorization = token;
+    //}
     return config;
   },
   function (error) {
@@ -43,4 +44,17 @@ export const register = async (params: RegistrationType) => {
   }
 
   return status;
+};
+
+export const update = async (params: UpdateProfileType) => {
+  const { data, status } = await axios.put(
+    `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/update`,
+    params
+  );
+
+  if (status === 200) {
+    fetchMe();
+  }
+
+  return data;
 };

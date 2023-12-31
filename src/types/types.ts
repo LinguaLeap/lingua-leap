@@ -1,24 +1,45 @@
 import { FieldProps } from "formik";
 import { SingleValue, MultiValue } from "react-select";
 
+export enum LanguageCardNum {
+  STUDY = "Study languages",
+  MAIN = "Mother Tongue",
+}
+
+export type LanguageCardType = {
+  type: LanguageCardNum;
+  language: string;
+  level?: number;
+};
+
 export type LoginType = {
   email: string;
   password: string;
 };
 
 export type StudyLanguages = {
-  languages: string;
+  language: string;
   level: string;
 };
 
-export type RegistrationType = {
-  givenName: string;
-  familyName: string;
-  emails: { value: string }[];
-  gender: string;
+export type UpdateProfileType = {
   birthDate: Date;
+  familyName: string;
+  gender: number;
+  givenName: string;
   country: string;
-  mainLanguage: string;
+  mainLanguage: string[];
+  otherLanguages: StudyLanguages[];
+};
+
+export type RegistrationType = {
+  birthDate: Date;
+  emails: { value: string }[];
+  familyName: string;
+  gender: number;
+  givenName: string;
+  country: string;
+  mainLanguage: string[];
   otherLanguages: StudyLanguages[];
   password: string;
 };

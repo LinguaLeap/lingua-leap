@@ -5,36 +5,31 @@ import { GoPeople } from "react-icons/go";
 import { TiMessages } from "react-icons/ti";
 import { CiUser } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 const Header = memo(() => {
   const { loggedUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleLoginButtonClick = () => {
+  const handleLoginButtonClick = useCallback(() => {
     navigate("/login");
-    console.log("You click on login  button");
-  };
+  }, [navigate]);
 
-  const handleSingUpButtonClick = () => {
+  const handleSingUpButtonClick = useCallback(() => {
     navigate("/registration");
-    console.log("You click on registration  button");
-  };
+  }, [navigate]);
 
-  const handleCommunityButtonClick = () => {
+  const handleCommunityButtonClick = useCallback(() => {
     navigate("/community");
-    console.log("You click on Community button");
-  };
+  }, [navigate]);
 
-  const handleMessagesButtonClick = () => {
+  const handleMessagesButtonClick = useCallback(() => {
     navigate("/conversations");
-    console.log("You click on Messages button");
-  };
+  }, [navigate]);
 
-  const handleProfileButtonClick = () => {
+  const handleProfileButtonClick = useCallback(() => {
     navigate("/my-profile");
-    console.log("You click on login  button");
-  };
+  }, [navigate]);
 
   return (
     <header className="bg-slate-900 px-6 py-8 flex flex-row justify-between">

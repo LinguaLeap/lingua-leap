@@ -3,17 +3,16 @@ import GoogleButton from "../common/GoogleButton";
 import * as Yup from "yup";
 import { LoginType } from "../../types/Types";
 import { login } from "../../api/api";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
 const LoginForm = memo(() => {
-  const handleLoginFormSubmit = async (data: LoginType) => {
+  const handleLoginFormSubmit = useCallback(async (data: LoginType) => {
     await login(data);
-    console.log(JSON.stringify(data, null, 2));
-  };
+  }, []);
 
   return (
     <div className="max-w-screen-sm mx-auto my-12">

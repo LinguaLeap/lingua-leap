@@ -1,108 +1,214 @@
 import { Field, Form, Formik } from "formik";
 import { useAuth } from "../contexts/AuthContext";
-//import languageJson from "../static/languages.json";
+import languageOptions from "../static/languages.json";
+import countryOptions from "../static/countries.json";
+import CustomSelect from "./CustomSelect";
+import { useState, memo } from "react";
+import { Option, StudyLanguages } from "../types/Types";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { update } from "../api/api";
+import { GenderEnum, LanguageLevelEnum } from "../enums";
 
-const EditProfile = () => {
+const EditProfile = memo(() => {
   const { loggedUser } = useAuth();
-  //const languageOptions = languageJson;
+  const [languages, setLanguages] = useState<Option[]>();
 
   if (!loggedUser) {
     return <div>Loading...</div>;
   }
 
+  function enumKeys<O extends object, K extends keyof O = keyof O>(
+    obj: O
+  ): K[] {
+    return Object.keys(obj).filter((k) => Number.isNaN(+k)) as K[];
+  }
   return (
     <Formik
       initialValues={{
-        displayName: loggedUser?.displayName ?? "",
-        givenName: loggedUser?.givenName ?? "",
+        birthDate: loggedUser?.birthDate
+          ? new Date(loggedUser.birthDate)
+          : new Date(),
         familyName: loggedUser?.familyName ?? "",
-        emails: loggedUser?.emails[0].value ?? "",
-        mainLanguage: loggedUser?.mainLanguage ?? "",
-        otherLanguages: loggedUser?.otherLanguages ?? "",
+        gender: loggedUser?.gender ?? 0,
+        givenName: loggedUser?.givenName ?? "",
+        country: loggedUser?.country ?? "",
+        mainLanguage: loggedUser?.mainLanguage ?? [],
+        otherLanguages: loggedUser?.otherLanguages ?? ([] as StudyLanguages[]),
+        languages: languages ?? [],
       }}
       onSubmit={async (values) => {
-        await new Promise((r) => setTimeout(r, 500));
-
-        console.log(JSON.stringify(values, null, 2));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { languages, ...submitValues } = values;
+        const updatedValues = {
+          ...submitValues,
+          otherLanguages: submitValues.otherLanguages.map((lang) => ({
+            ...lang,
+            level: String(lang.level),
+          })),
+        };
+        await update(updatedValues);
       }}
     >
-      <Form className="flex flex-col max-w-screen-sm mx-auto my-7 ">
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="displayName">
-            Display Name
-          </label>
-          <Field
-            id="displayName"
-            name="displayName"
-            placeholder="Your login"
-            className="form-input w-full"
-          />
-        </div>
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="givenName">
-            Given Name
-          </label>
-          <Field
-            id="givenName"
-            name="givenName"
-            placeholder="Your Given Name"
-            className="form-input w-full"
-          />
-        </div>
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="familyName">
-            Family Name
-          </label>
-          <Field
-            id="familyName"
-            name="familyName"
-            placeholder="Your Given Name"
-            className="form-input w-full"
-          />
-        </div>
-        <div> Photo []</div>
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="emails">
-            Email
-          </label>
-          <Field
-            id="emails"
-            name="emails"
-            placeholder="Your Given Name"
-            className="form-input w-full"
-          />
-        </div>
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="mainLanguage">
-            Main Language
-          </label>
-          {/* <Field
-            className="mainLanguage"
-            name="mainLanguage"
-            options={languageOptions}
-            component={CustomSelect}
-            placeholder="Select multi languages..."
-            isMulti={true}
-          /> */}
-        </div>
-        <div className="flex flex-row gap-4 items-center my-4">
-          <label className="min-w-40 text-right" htmlFor="otherLanguages">
-            Other Languages
-          </label>
-          {/* <Field
-            className="otherLanguages"
-            name="otherLanguages"
-            options={languageOptions}
-            component={CustomSelect}
-            placeholder="Select multi languages..."
-            isMulti={true}
-          /> */}
-        </div>
-        <button type="submit" className="pr-btn place-self-end">
-          Submit
-        </button>
-      </Form>
+      {({ errors, values, setFieldValue }) => (
+        <Form className="flex flex-col max-w-screen-sm mx-auto my-7 ">
+          <div className="flex flex-row gap-4 items-center my-4">
+            <label className="min-w-40 text-right" htmlFor="givenName">
+              First Name
+            </label>
+            <Field
+              name="givenName"
+              placeholder="Your Given Name"
+              className="form-input w-full"
+            />
+          </div>
+          <div className="flex flex-row gap-4 items-center my-4">
+            <label className="min-w-40 text-right" htmlFor="familyName">
+              Family Name
+            </label>
+            <Field
+              id="familyName"
+              name="familyName"
+              placeholder="Your Given Name"
+              className="form-input w-full"
+            />
+          </div>
+          <div className="flex flex-row gap-4 items-center my-4">
+            <label className="min-w-40 text-right" htmlFor="birthDate">
+              Birthdate
+            </label>
+            <DatePicker
+              name="birthDate"
+              selected={values.birthDate}
+              onChange={(date) => {
+                setFieldValue("birthDate", date);
+              }}
+            />
+          </div>
+          <div className="flex flex-row gap-4 items-center my-4">
+            <label className="min-w-40 text-right" htmlFor="familyName">
+              Gender
+            </label>
+            <div role="group" aria-labelledby="gender">
+              {enumKeys(GenderEnum).map((gender) => {
+                return (
+                  <label key={gender}>
+                    <Field
+                      type="radio"
+                      name="gender"
+                      value={GenderEnum[gender]}
+                      checked={values.gender === GenderEnum[gender]}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setFieldValue("gender", e.target.value);
+                        console.log(values.gender);
+                      }}
+                    />
+                    {gender}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex flex-row gap-4 items-center my-4">
+            <label className="min-w-40 text-right" htmlFor="country">
+              Country
+            </label>
+            <div className="flex flex-col w-full">
+              <Field
+                name="country"
+                options={countryOptions}
+                component={CustomSelect}
+                isMulti={false}
+                onChangeField={(newValue: Option) => {
+                  setFieldValue(`country`, newValue.value);
+                }}
+              />
+
+              {errors.familyName && (
+                <div className="text-red-600">{errors.country}</div>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-row gap-4 items-start my-4">
+            <label className="min-w-40 text-right" htmlFor="mainLanguage">
+              Main Language
+            </label>
+            <div className="flex flex-col w-full">
+              <Field
+                className="mainLanguage"
+                name="mainLanguage"
+                options={languageOptions}
+                component={CustomSelect}
+                placeholder="Select multi languages..."
+                isMulti={true}
+              />
+              {errors.mainLanguage?.length && (
+                <div className="text-red-600">{errors.mainLanguage}</div>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-row gap-4 items-start my-4">
+            <label className="min-w-40 text-right" htmlFor="otherLanguages">
+              Other Languages
+            </label>
+            <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full">
+                <Field
+                  name="languages"
+                  options={languageOptions}
+                  component={CustomSelect}
+                  placeholder="Select multi languages..."
+                  onChangeField={setLanguages}
+                  isMulti={true}
+                />
+              </div>
+
+              {Array.isArray(languages) &&
+                languages.map((item, index) => {
+                  return (
+                    <div
+                      className="flex flex-row items-center gap-x-4 my-4"
+                      key={`level${item}-${index}`}
+                    >
+                      <div>
+                        <label className="min-w-40 text-right">
+                          {item.label}
+                        </label>
+                      </div>
+                      <Field
+                        key={`level-${item}`}
+                        as="select"
+                        name="otherLanguages.level"
+                        className="w-full"
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                          setFieldValue(`otherLanguages[${index}]`, {
+                            language: item.value,
+                            level: e.target.value,
+                          });
+                        }}
+                      >
+                        {enumKeys(LanguageLevelEnum).map((level) => {
+                          return (
+                            <option
+                              key={level}
+                              value={LanguageLevelEnum[level]}
+                            >
+                              {level}
+                            </option>
+                          );
+                        })}
+                      </Field>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+          <button type="submit" className="pr-btn place-self-end">
+            Submit
+          </button>
+        </Form>
+      )}
     </Formik>
   );
-};
+});
 export default EditProfile;

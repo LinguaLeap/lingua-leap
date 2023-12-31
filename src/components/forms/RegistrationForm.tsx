@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomSelect from "../CustomSelect";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Option, RegistrationType, StudyLanguages } from "../../types/Types";
 import { register } from "../../api/api";
 
@@ -21,15 +21,18 @@ const RegistrationForm = memo(() => {
   const [startDate, setStartDate] = useState(new Date());
   const [languages, setLanguages] = useState<Option[]>([]);
 
-  const handleRegistrationFormSubmit = async (
-    data: RegistrationType,
-    actions: FormikHelpers<RegistrationType>
-  ) => {
-    const status = await register(data);
-    if (status === 200) {
-      actions.resetForm();
-    }
-  };
+  const handleRegistrationFormSubmit = useCallback(
+    async (
+      data: RegistrationType,
+      actions: FormikHelpers<RegistrationType>
+    ) => {
+      const status = await register(data);
+      if (status === 200) {
+        actions.resetForm();
+      }
+    },
+    []
+  );
 
   return (
     <div className="max-w-screen-sm mx-auto my-12">
@@ -40,7 +43,7 @@ const RegistrationForm = memo(() => {
       <Formik
         initialValues={{
           birthDate: new Date(),
-          emails: "",
+          email: "",
           familyName: "",
           gender: "",
           givenName: "",
@@ -51,12 +54,12 @@ const RegistrationForm = memo(() => {
         }}
         validationSchema={SignupSchema}
         onSubmit={async (values, actions) => {
-          const { languages, emails, ...submitValues } = values;
-          const emailValues = [{ value: values.emails }];
+          const { languages, email, ...submitValues } = values;
+          const emails = [{ value: email }];
           handleRegistrationFormSubmit(
             {
+              emails,
               ...submitValues,
-              emails: emailValues,
             },
             actions
           );
@@ -148,18 +151,17 @@ const RegistrationForm = memo(() => {
             </div>
 
             <div className="flex flex-row gap-4 items-center my-4">
-              <label className="min-w-40 text-right" htmlFor="emails">
+              <label className="min-w-40 text-right" htmlFor="email">
                 Email
               </label>
               <div className="flex flex-col w-full">
                 <Field
-                  id="emails"
-                  name="emails"
+                  name="email"
                   placeholder="Your Given Name"
                   className="form-input w-full"
                 />
-                {errors.emails && (
-                  <div className="text-red-600">{errors.emails}</div>
+                {errors.email && (
+                  <div className="text-red-600">{errors.email}</div>
                 )}
               </div>
             </div>

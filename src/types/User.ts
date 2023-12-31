@@ -1,15 +1,16 @@
 export interface UserType {
   _id: string;
   googleId: string;
-  displayName: string;
   familyName: string;
   givenName: string;
   birthDate: Date;
+  gender: number;
   photos: Photo[];
   emails: Email[];
-  country: number;
+  country: string;
   mainLanguage: string[];
   otherLanguages: LanguageLevel[];
+  password: string;
   createdAt: string;
 }
 
