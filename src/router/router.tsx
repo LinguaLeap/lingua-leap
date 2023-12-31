@@ -10,6 +10,7 @@ import TokenGet from "../pages/TokenGet";
 import RegistrationForm from "../components/forms/RegistrationForm";
 import EditProfile from "../components/EditProfile";
 import Profile from "../components/Profile";
+import Chat from "../pages/Chat";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "/edit-profile",
         element: <EditProfile />,
+      },
+      {
+        path: "/messages",
+        element: <Chat />,
       },
     ],
   },
