@@ -47,12 +47,12 @@ export const register = async (params: RegistrationType) => {
 };
 
 export const update = async (params: UpdateProfileType) => {
-  const { data, status } = await axios.put(
+  const data = await axios.put(
     `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/update`,
     params
   );
 
-  if (status === 200) {
+  if (data.status === 200) {
     fetchMe();
   }
 
