@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 import { AuthProvider } from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SocketProvider } from "./contexts/SocketIO";
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,9 @@ function App() {
         <React.StrictMode>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
-                    <RouterProvider router={router} />
+                    <SocketProvider>
+                        <RouterProvider router={router} />
+                    </SocketProvider>
                 </AuthProvider>
             </QueryClientProvider>
         </React.StrictMode>

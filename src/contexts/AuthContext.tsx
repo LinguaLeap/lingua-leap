@@ -26,7 +26,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchData = async () => {
       try {
         const { user } = await fetchMe();
-        console.log(user);
         if (user) {
           setLoggedUser(user as UserType);
         } else {

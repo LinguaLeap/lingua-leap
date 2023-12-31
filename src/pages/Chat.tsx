@@ -9,15 +9,18 @@ function Chat() {
     const { socket } = useSocket();
 
     useEffect(() => {
+        socket?.on("connect", () => {
+            console.log(socket.id);
+        });
+
         socket?.on("receiveMessage", ({ fromUser, message }) => {
             console.log(
                 `Received message from user ${
                     fromUser + " " + fromUser
                 }: ${message}`
             );
-            console.log(message);
         });
-    }, []);
+    }, [socket]);
 
     const gonder = (content: string, receiver: string) => {
         socket?.emit("sendMessage", {
@@ -29,6 +32,7 @@ function Chat() {
     if (isLoading) {
         return <>Loading...</>;
     }
+    //gonder("asdasd", "6590aaef2d279701e91a4fee")
     return (
         <div className="flex">
             <div className="w-1/6">
