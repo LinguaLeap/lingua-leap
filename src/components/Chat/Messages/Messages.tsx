@@ -1,6 +1,6 @@
 function Messages() {
   return (
-    <div>Messages</div>
+    <div>There are a lot of messages.</div>
   )
 }
 
