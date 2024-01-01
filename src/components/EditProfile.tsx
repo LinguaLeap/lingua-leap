@@ -4,7 +4,7 @@ import languageOptions from "../static/languages.json";
 import countryOptions from "../static/countries.json";
 import CustomSelect from "./CustomSelect";
 import { useState, memo } from "react";
-import { Option, StudyLanguages } from "../types/types";
+import { Option, StudyLanguages } from "../types/Types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { update } from "../api/api";
@@ -173,86 +173,6 @@ const EditProfile = memo(() => {
                   isMulti={true}
                 />
               </div>
-              {languages.length === 0
-                ? loggedUser.otherLanguages.map((language, index) => {
-                    return (
-                      <div
-                        className="flex flex-row items-center gap-x-4 my-4"
-                        key={`level${language.language}-${index}`}
-                      >
-                        <div>
-                          <label className="min-w-40 text-right">
-                            {decode[language.language]}
-                          </label>
-                        </div>
-                        <Field
-                          key={`level-${language.language}`}
-                          as="select"
-                          name="otherLanguages.level"
-                          className="w-full"
-                          defaultValue={language.level}
-                          onChange={(
-                            e: React.ChangeEvent<HTMLSelectElement>
-                          ) => {
-                            setFieldValue(`otherLanguages[${index}]`, {
-                              language: language.language,
-                              level: e.target.value,
-                            });
-                          }}
-                        >
-                          {enumKeys(LanguageLevelEnum).map((level) => {
-                            return (
-                              <option
-                                key={level}
-                                value={LanguageLevelEnum[level]}
-                              >
-                                {level}
-                              </option>
-                            );
-                          })}
-                        </Field>
-                      </div>
-                    );
-                  })
-                : languages.map((item, index) => {
-                    return (
-                      <div
-                        className="flex flex-row items-center gap-x-4 my-4"
-                        key={`level${item}-${index}`}
-                      >
-                        <div>
-                          <label className="min-w-40 text-right">
-                            {item.label}
-                          </label>
-                        </div>
-                        <Field
-                          key={`level-${item}`}
-                          as="select"
-                          name="otherLanguages.level"
-                          className="w-full"
-                          onChange={(
-                            e: React.ChangeEvent<HTMLSelectElement>
-                          ) => {
-                            setFieldValue(`otherLanguages[${index}]`, {
-                              language: item.value,
-                              level: e.target.value,
-                            });
-                          }}
-                        >
-                          {enumKeys(LanguageLevelEnum).map((level) => {
-                            return (
-                              <option
-                                key={level}
-                                value={LanguageLevelEnum[level]}
-                              >
-                                {level}
-                              </option>
-                            );
-                          })}
-                        </Field>
-                      </div>
-                    );
-                  })}
             </div>
           </div>
           <button type="submit" className="pr-btn place-self-end">

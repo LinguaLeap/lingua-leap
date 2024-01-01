@@ -1,17 +1,34 @@
 import { useAuth } from "../contexts/AuthContext";
 import { MdModeEditOutline } from "react-icons/md";
-import { LanguageCardNum } from "../types/types";
+import { LanguageCardNum } from "../types/Types";
 import LanguageCard from "./common/LanguageCard";
-import { LanguageLevel } from "../types/User";
-import { useNavigate } from "react-router-dom";
-import { useCallback } from "react";
+import { LanguageLevel, UserType } from "../types/User";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { GenderEnum } from "../enums";
 import decodeCountry from "../static/decodeCountry.json";
+import NoPhoto from "./common/NoPhoto";
+import { getUser } from "../api/api";
 
 const Profile = () => {
+  const { id } = useParams();
   const { loggedUser } = useAuth();
   const navigate = useNavigate();
   const decode: Record<string, string> = decodeCountry;
+  const [user, setUser] = useState<UserType>();
+
+  const fetchData = async (id: string) => {
+    const data = await getUser(id);
+    setUser(data);
+  };
+
+  useEffect(() => {
+    if (loggedUser !== null && !id) {
+      setUser(loggedUser);
+    } else if (id) {
+      fetchData(id);
+    }
+  }, [id, loggedUser]);
 
   const handleEditProfileButtonClick = useCallback(() => {
     navigate("/edit-profile");
@@ -34,45 +51,32 @@ const Profile = () => {
     <div className="content-wrapper bg-slate-500 p-9 box-border">
       <div className="flex flex-row items-start gap-x-6">
         <div>
-          <div className="relative w-40 h-40 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 flex justify-center items-center">
-            <svg
-              className="absolute w-32 h-32 text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
+          <NoPhoto size="big" />
         </div>
         <div className="flex flex-row gap-x-3 items-center">
-          <div>{`${loggedUser?.givenName} ${loggedUser?.familyName}`}</div>
+          <div>{`${user?.givenName} ${user?.familyName}`}</div>
           <button className="pr-btn" onClick={handleEditProfileButtonClick}>
             <MdModeEditOutline /> Edit Profile
           </button>
         </div>
         <div className="flex flex-row">
-          {loggedUser?.birthDate && (
+          {user?.birthDate && (
             <div className="flex flex-col">
               <div>Age</div>
-              <div>{ageFromDateOfBirthday(loggedUser.birthDate)}</div>
+              <div>{ageFromDateOfBirthday(user.birthDate)}</div>
             </div>
           )}
 
-          {loggedUser?.gender && (
+          {user?.gender && (
             <div className="flex flex-col">
-              <div>{GenderEnum[loggedUser.gender]}</div>
+              <div>{GenderEnum[user.gender]}</div>
               <div>Gender</div>
             </div>
           )}
 
-          {loggedUser?.country && (
+          {user?.country && (
             <div className="flex flex-col">
-              <div>{decode[loggedUser.country]}</div>
+              <div>{decode[user.country]}</div>
               <div>Country</div>
             </div>
           )}
@@ -81,7 +85,7 @@ const Profile = () => {
       <div>
         <div>
           <h2>{LanguageCardNum.MAIN}</h2>
-          {loggedUser?.mainLanguage.map((language: string, index) => {
+          {user?.mainLanguage.map((language: string, index) => {
             return (
               <LanguageCard
                 key={`${language}-${index}`}
@@ -94,16 +98,18 @@ const Profile = () => {
         <div>
           <h2>{LanguageCardNum.STUDY}</h2>
           <div>
-            {loggedUser?.otherLanguages.map((language: LanguageLevel) => {
-              return (
-                <LanguageCard
-                  key={`${language.language}-${language.level}`}
-                  language={language.language}
-                  level={language.level}
-                  type={LanguageCardNum.STUDY}
-                />
-              );
-            })}
+            {user?.otherLanguages.map(
+              (language: LanguageLevel, index: number) => {
+                return (
+                  <LanguageCard
+                    key={`${language.language}-${language.level}-${index}`}
+                    language={language.language}
+                    level={language.level}
+                    type={LanguageCardNum.STUDY}
+                  />
+                );
+              }
+            )}
           </div>
         </div>
       </div>

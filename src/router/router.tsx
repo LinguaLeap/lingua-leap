@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import PrivateRoutes from "../middlewares/PrivateRoutes";
 import ErrorPage from "../pages/ErrorPage";
-import Main from "../pages/Main";
+import Community from "../pages/Community";
 import Login from "../pages/Login";
 import Test from "../pages/Test";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/community",
-            element: <Main />,
+            element: <Community />,
           },
         ],
       },
@@ -41,6 +41,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "/my-profile",
+        element: <Profile />,
+      },
+      {
+        path: "/user/:id",
         element: <Profile />,
       },
       {

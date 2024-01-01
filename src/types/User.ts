@@ -1,6 +1,7 @@
 export interface UserType {
   _id: string;
   googleId: string;
+  displayName: string;
   familyName: string;
   givenName: string;
   birthDate: Date;
@@ -10,7 +11,6 @@ export interface UserType {
   country: string;
   mainLanguage: string[];
   otherLanguages: LanguageLevel[];
-  password: string;
   createdAt: string;
 }
 
