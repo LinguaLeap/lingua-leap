@@ -34,6 +34,10 @@ const Profile = () => {
     navigate("/edit-profile");
   }, [navigate]);
 
+  const handleWriteMassage = useCallback(() => {
+    console.log("You clicked on Write Massage button");
+  }, [navigate]);
+
   const ageFromDateOfBirthday = (dateOfBirth: Date): number => {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
@@ -55,9 +59,15 @@ const Profile = () => {
         </div>
         <div className="flex flex-row gap-x-3 items-center">
           <div>{`${user?.givenName} ${user?.familyName}`}</div>
-          <button className="pr-btn" onClick={handleEditProfileButtonClick}>
-            <MdModeEditOutline /> Edit Profile
-          </button>
+          {!id ? (
+            <button className="pr-btn" onClick={handleEditProfileButtonClick}>
+              <MdModeEditOutline /> Edit Profile
+            </button>
+          ) : (
+            <button className="pr-btn" onClick={handleWriteMassage}>
+              <MdModeEditOutline /> Write Message
+            </button>
+          )}
         </div>
         <div className="flex flex-row">
           {user?.birthDate && (
