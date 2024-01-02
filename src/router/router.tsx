@@ -11,6 +11,7 @@ import RegistrationForm from "../components/forms/RegistrationForm";
 import EditProfile from "../components/EditProfile";
 import Profile from "../components/Profile";
 import Chat from "../pages/Chat";
+import AboutUs from "../pages/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "/messages",
         element: <Chat />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUs />,
       },
     ],
   },
