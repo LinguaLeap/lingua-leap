@@ -36,7 +36,7 @@ const Profile = () => {
 
   const handleWriteMassage = useCallback(() => {
     console.log("You clicked on Write Massage button");
-  }, [navigate]);
+  }, []);
 
   const ageFromDateOfBirthday = (dateOfBirth: Date): number => {
     const today = new Date();

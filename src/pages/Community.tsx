@@ -16,7 +16,7 @@ const Community = () => {
   }, []);
 
   return (
-    <div className="flex flex-row flex-wrap">
+    <div className="flex flex-row flex-wrap content-wrapper px-7 py-8 bg-opacity-70 bg-white">
       {users.map((user, index) => {
         return <UserCard key={index} user={user} />;
       })}
