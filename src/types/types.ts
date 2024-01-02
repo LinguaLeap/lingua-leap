@@ -1,5 +1,6 @@
 import { FieldProps } from "formik";
 import { SingleValue, MultiValue } from "react-select";
+import { NotificationEnum } from "../enums";
 
 export enum LanguageCardNum {
   STUDY = "Study languages",
@@ -56,3 +57,10 @@ export interface CustomSelectProps extends FieldProps {
   placeholder?: string;
   onChangeField?: (newValue: MultiValue<Option> | SingleValue<Option>) => void;
 }
+
+export type NotificationType = {
+  type: NotificationEnum;
+  title: string;
+  message: string;
+  onClose: () => void;
+};

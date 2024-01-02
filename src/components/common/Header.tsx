@@ -9,6 +9,7 @@ import { memo, useCallback } from "react";
 
 const Header = memo(() => {
   const { loggedUser } = useAuth();
+
   const navigate = useNavigate();
 
   const handleLoginButtonClick = useCallback(() => {

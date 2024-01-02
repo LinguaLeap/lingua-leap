@@ -24,3 +24,7 @@
 .orange-text {
   @apply bg-gradient-to-r from-pink-500 to-red-400 bg-clip-text text-transparent;
 }
+
+.notification-success {
+  @apply absolute right-3 top-3 flex items-center w-full max-w-md p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800;
+}

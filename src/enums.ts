@@ -12,3 +12,9 @@ export enum GenderEnum {
   "Female" = 2,
   "Other" = 3,
 }
+
+export enum NotificationEnum {
+  "ERROR_NOTIFICATION" = "notification-success",
+  "SUCCESS_NOTIFICATION" = "notification-error",
+  "WARNING_NOTIFICATION" = "notification-warning",
+}

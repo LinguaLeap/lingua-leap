@@ -8,10 +8,9 @@ axios.interceptors.request.use(
 
     const token = localStorage.getItem("token");
 
-    console.log(allowedOrigins, origin);
-    //if (allowedOrigins.includes(origin)) {
-    config.headers.authorization = token;
-    //}
+    if (allowedOrigins.includes(origin)) {
+      config.headers.authorization = token;
+    }
     return config;
   },
   function (error) {
@@ -20,14 +19,16 @@ axios.interceptors.request.use(
 );
 
 export const fetchMe = async () => {
-  const { data } = await axios.get(
-    `${import.meta.env.VITE_BASE_ENDPOINT}/auth/me`
-  );
+  const data = await axios
+    .get(`${import.meta.env.VITE_BASE_ENDPOINT}/auth/me`)
+    .catch((error) => {
+      return error.response.data.message;
+    });
   return data;
 };
 
 export const login = async (params: LoginType) => {
-  const { data } = await axios.post(
+  const data = await axios.post(
     `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/login`,
     params
   );
