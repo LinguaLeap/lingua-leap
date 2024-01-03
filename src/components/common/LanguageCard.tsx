@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { LanguageCardType, LanguageCardNum } from "../../types/Types";
+import { LanguageCardType, LanguageCardNum } from "../../types/types";
 import decodeLanguage from "../../static/decodeLanguage.json";
 import { LanguageLevelEnum } from "../../enums";
 

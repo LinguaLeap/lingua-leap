@@ -4,11 +4,11 @@ import languageOptions from "../static/languages.json";
 import countryOptions from "../static/countries.json";
 import CustomSelect from "./CustomSelect";
 import { useState, memo } from "react";
-import { Option, StudyLanguages } from "../types/Types";
+import { Option, StudyLanguages } from "../types/types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { update } from "../api/api";
-import { GenderEnum, LanguageLevelEnum } from "../enums";
+import { GenderEnum } from "../enums";
 import decodeLanguage from "../static/decodeLanguage.json";
 import { useNavigate } from "react-router-dom";
 

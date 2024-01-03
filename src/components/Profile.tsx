@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { MdModeEditOutline } from "react-icons/md";
-import { LanguageCardNum } from "../types/Types";
+import { LanguageCardNum } from "../types/types";
 import LanguageCard from "./common/LanguageCard";
 import { LanguageLevel, UserType } from "../types/User";
 import { useNavigate, useParams } from "react-router-dom";

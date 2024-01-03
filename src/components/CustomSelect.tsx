@@ -1,5 +1,5 @@
 import Select, { SingleValue, MultiValue } from "react-select";
-import { CustomSelectProps, Option } from "../types/Types";
+import { CustomSelectProps, Option } from "../types/types";
 import { memo, useCallback } from "react";
 
 export const CustomSelect = memo(

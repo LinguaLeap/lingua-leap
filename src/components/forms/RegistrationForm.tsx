@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomSelect from "../CustomSelect";
 import { memo, useCallback } from "react";
-import { Option, RegistrationType, StudyLanguages } from "../../types/Types";
+import { Option, RegistrationType, StudyLanguages } from "../../types/types";
 import { register } from "../../api/api";
 
 const SignupSchema = Yup.object().shape({

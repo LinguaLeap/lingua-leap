@@ -1,5 +1,5 @@
 import { NotificationEnum } from "../../enums";
-import { NotificationType } from "../../types/Types";
+import { NotificationType } from "../../types/types";
 
 const Notification = ({ type, title, message, onClose }: NotificationType) => {
   const handleClose = () => {

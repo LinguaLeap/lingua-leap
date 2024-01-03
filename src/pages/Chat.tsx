@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import ConversationsList from "../components/Chat/Conversations/ConversationsList";
 import Messages from "../components/Chat/Messages/Messages";
 import { useSocket } from "../contexts/SocketIO";
 
 function Chat() {
-    const { loggedUser, isLoading } = useAuth();
     const { socket } = useSocket();
 
     useEffect(() => {
@@ -29,9 +27,6 @@ function Chat() {
         });
     };
 
-    if (isLoading) {
-        return <>Loading...</>;
-    }
     //gonder("asdasd", "6590aaef2d279701e91a4fee")
     return (
         <div className="flex">
