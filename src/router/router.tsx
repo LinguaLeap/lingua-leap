@@ -29,6 +29,22 @@ export const router = createBrowserRouter([
                         path: "/community",
                         element: <Community />,
                     },
+                    {
+                        path: "/my-profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "/user/:id",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "/edit-profile",
+                        element: <EditProfile />,
+                    },
+                    {
+                        path: "/messages",
+                        element: <Chat />,
+                    },
                 ],
             },
             {
@@ -38,22 +54,6 @@ export const router = createBrowserRouter([
             {
                 path: "/registration",
                 element: <RegistrationForm />,
-            },
-            {
-                path: "/my-profile",
-                element: <Profile />,
-            },
-            {
-                path: "/user/:id",
-                element: <Profile />,
-            },
-            {
-                path: "/edit-profile",
-                element: <EditProfile />,
-            },
-            {
-                path: "/messages",
-                element: <Chat />,
             },
             {
                 path: "about-us",

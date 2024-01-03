@@ -20,12 +20,12 @@ function Chat() {
         });
     }, [socket]);
 
-    const gonder = (content: string, receiver: string) => {
+    /* const gonder = (content: string, receiver: string) => {
         socket?.emit("sendMessage", {
             toUserId: receiver,
             message: content,
         });
-    };
+    }; */
 
     //gonder("asdasd", "6590aaef2d279701e91a4fee")
     return (
