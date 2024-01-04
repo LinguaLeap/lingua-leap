@@ -2,7 +2,7 @@ import { Formik, Field, Form, FormikHelpers } from "formik";
 import GoogleButton from "../common/GoogleButton";
 import languageOptions from "../../static/languages.json";
 import countryOptions from "../../static/countries.json";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,27 +12,65 @@ import { Option, RegistrationType, StudyLanguages } from "../../types/types";
 import { register } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { RegistrationStepsEnum } from "../../enums";
-import dayjs from "dayjs";
 
-const SignupSchema = Yup.object().shape({
-  givenName: Yup.string().required("Required"),
-  familyName: Yup.string().required("Required"),
-  email: Yup.string().email("").required("Required"),
-  birthDate: Yup.date().required(),
-  password: Yup.string().min(8, "Too Short!").required("Required"),
-});
+const startDate = new Date(
+  new Date().getFullYear() - 13,
+  new Date().getMonth(),
+  new Date().getDate()
+);
 
 const RegistrationForm = memo(() => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [languages, setLanguages] = useState<Option[]>([]);
-
   const [steps, setSteps] = useState<RegistrationStepsEnum>(
     RegistrationStepsEnum.STEP_1
   );
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log(dayjs().subtract(13, "year"));
+
+  const RegistrationSchemaStep1 = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
   });
+
+  const RegistrationSchemaStep2 = Yup.object({
+    givenName: Yup.string().required("Given Name is required"),
+    familyName: Yup.string().required("Family Name is required"),
+    birthDate: Yup.date()
+      .max(
+        new Date(new Date().setFullYear(new Date().getFullYear() - 13)),
+        "Must be at least 13 years old"
+      )
+      .required("Birth Date is required"),
+    country: Yup.string().required("Country is required"),
+    gender: Yup.string().required("Gender is required"),
+  });
+
+  const RegistrationSchemaStep3 = Yup.object({
+    mainLanguage: Yup.array()
+      .min(1, "Select at least one option")
+      .required("Main Languages is required"),
+    otherLanguages: Yup.array()
+      .min(1, "Select at least one language")
+      .of(
+        Yup.object().shape({
+          language: Yup.string().required("Language is required"),
+          level: Yup.string().required("Level is required"),
+        })
+      ),
+  });
+
+  const getValidationSchema = (step: RegistrationStepsEnum) => {
+    switch (step) {
+      case RegistrationStepsEnum.STEP_1:
+        return RegistrationSchemaStep1;
+      case RegistrationStepsEnum.STEP_2:
+        return RegistrationSchemaStep2;
+      case RegistrationStepsEnum.STEP_3:
+        return RegistrationSchemaStep3;
+      default:
+        return Yup.object({});
+    }
+  };
 
   const handleRegistrationFormSubmit = useCallback(
     async (
@@ -40,6 +78,7 @@ const RegistrationForm = memo(() => {
       actions: FormikHelpers<RegistrationType>
     ) => {
       const res = await register(data);
+      console.log(data);
       if (res.status === 200) {
         actions.resetForm();
         navigate("/community");
@@ -63,9 +102,10 @@ const RegistrationForm = memo(() => {
           country: "",
           mainLanguage: "",
           otherLanguages: [] as StudyLanguages[],
+          languages: [],
           password: "",
         }}
-        validationSchema={SignupSchema}
+        validationSchema={getValidationSchema(steps)}
         onSubmit={async (values, actions) => {
           const { languages, email, ...submitValues } = values;
           const emails = [{ value: email }];
@@ -78,7 +118,15 @@ const RegistrationForm = memo(() => {
           );
         }}
       >
-        {({ values, errors, setFieldValue, validateField }) => (
+        {({
+          values,
+          errors,
+          setFieldValue,
+          validateField,
+          handleChange,
+          handleBlur,
+          touched,
+        }) => (
           <Form className="flex flex-col max-w-screen-sm mx-auto my-7 ">
             {steps === RegistrationStepsEnum.STEP_1 && (
               <>
@@ -118,11 +166,14 @@ const RegistrationForm = memo(() => {
                 </div>
                 <button
                   type="button"
-                  className="pr-btn place-self-end"
+                  className="pr-btn place-self-end mt-5"
                   onClick={() => {
-                    validateField("email");
-                    validateField("password");
-                    if (!errors.email && !errors.password) {
+                    if (
+                      values.email &&
+                      !errors.email &&
+                      values.password &&
+                      !errors.password
+                    ) {
                       setSteps(RegistrationStepsEnum.STEP_2);
                     }
                   }}
@@ -132,7 +183,7 @@ const RegistrationForm = memo(() => {
               </>
             )}
             {steps === RegistrationStepsEnum.STEP_2 && (
-              <>
+              <div>
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor="givenName"
@@ -173,12 +224,16 @@ const RegistrationForm = memo(() => {
                 >
                   birthDate
                 </label>
-                <DatePicker
-                  name="birthDate"
-                  selected={startDate}
-                  onChange={(date: Date) => setStartDate(date)}
-                />
-
+                <div className="flex flex-col w-full">
+                  <DatePicker
+                    name="birthDate"
+                    selected={values.birthDate}
+                    onChange={(date) => setFieldValue("birthDate", date)}
+                  />
+                  {errors.birthDate && typeof errors.birthDate === "string" && (
+                    <div className="text-red-600">{errors.birthDate}</div>
+                  )}
+                </div>
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor="country"
@@ -192,12 +247,11 @@ const RegistrationForm = memo(() => {
                     component={CustomSelect}
                     isMulti={false}
                     onChangeField={(newValue: Option) => {
-                      console.log(newValue);
-                      setFieldValue(`country`, newValue.label);
+                      setFieldValue(`country`, newValue.value);
                     }}
                   />
 
-                  {errors.familyName && (
+                  {errors.country && (
                     <div className="text-red-600">{errors.country}</div>
                   )}
                 </div>
@@ -208,22 +262,28 @@ const RegistrationForm = memo(() => {
                 >
                   Gender
                 </label>
-                <div role="group" aria-labelledby="gender">
-                  <label>
-                    <Field type="radio" name="gender" value="1" />
-                    Male
-                  </label>
-                  <label>
-                    <Field type="radio" name="gender" value="2" />
-                    Female
-                  </label>
-                  <label>
-                    <Field type="radio" name="gender" value="3" />
-                    Other
-                  </label>
+                <div>
+                  <div role="group" aria-labelledby="gender">
+                    <label>
+                      <Field type="radio" name="gender" value="1" />
+                      Male
+                    </label>
+                    <label>
+                      <Field type="radio" name="gender" value="2" />
+                      Female
+                    </label>
+                    <label>
+                      <Field type="radio" name="gender" value="3" />
+                      Other
+                    </label>
+                  </div>
+
+                  {errors.gender && (
+                    <div className="text-red-600">{errors.gender}</div>
+                  )}
                 </div>
                 <button
-                  type="button"
+                  type="submit"
                   className="pr-btn place-self-end"
                   onClick={() => {
                     setSteps(RegistrationStepsEnum.STEP_1);
@@ -235,12 +295,25 @@ const RegistrationForm = memo(() => {
                   type="button"
                   className="pr-btn place-self-end"
                   onClick={() => {
-                    setSteps(RegistrationStepsEnum.STEP_3);
+                    validateField("givenName");
+                    validateField("familyName");
+                    validateField("birthDate");
+                    validateField("country");
+                    validateField("gender");
+                    if (
+                      values.givenName &&
+                      !errors.givenName &&
+                      values.familyName &&
+                      !errors.familyName &&
+                      values.birthDate &&
+                      !errors.birthDate
+                    )
+                      setSteps(RegistrationStepsEnum.STEP_3);
                   }}
                 >
                   Next
                 </button>
-              </>
+              </div>
             )}
             {steps === RegistrationStepsEnum.STEP_3 && (
               <>
@@ -264,77 +337,68 @@ const RegistrationForm = memo(() => {
                   )}
                 </div>
 
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="otherLanguages"
+                <label htmlFor="otherLanguages">Select Languages:</label>
+                <select
+                  id="otherLanguages"
+                  name="otherLanguages"
+                  onChange={(e) => {
+                    const selectedValues = Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value
+                    );
+                    setFieldValue(
+                      "otherLanguages",
+                      selectedValues.map((value) => ({
+                        language: value,
+                        level: "",
+                      }))
+                    );
+                  }}
+                  onBlur={handleBlur}
+                  value={values.otherLanguages.map((lang) => lang.language)}
+                  multiple
                 >
-                  Other Languages
-                </label>
-                <div className="flex flex-col w-full">
-                  <div className="flex flex-col w-full">
-                    <Field
-                      name="languages"
-                      options={languageOptions}
-                      component={CustomSelect}
-                      placeholder="Select multi languages..."
-                      onChangeField={setLanguages}
-                      isMulti={true}
-                      touched
+                  {languageOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Display selected languages with corresponding level inputs */}
+                {values.otherLanguages.map((language, index) => (
+                  <div key={index}>
+                    <label htmlFor={`otherLanguages.${index}.level`}>
+                      Level for {language.language}:
+                    </label>
+                    <input
+                      type="text"
+                      id={`otherLanguages.${index}.level`}
+                      name={`otherLanguages.${index}.level`}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={language.level}
                     />
+                    {touched.otherLanguages &&
+                      touched.otherLanguages[index]?.level &&
+                      errors.otherLanguages &&
+                      errors.otherLanguages[index]?.level && (
+                        <div>{errors.otherLanguages[index]?.level}</div>
+                      )}
                   </div>
+                ))}
 
-                  {Array.isArray(languages) &&
-                    languages.map((item, index) => {
-                      return (
-                        <div
-                          className="flex flex-col gap-x-4 my-4"
-                          key={`level${item}-${index}`}
-                        >
-                          <label className="block text-gray-700 text-sm font-bold mb-2">
-                            {item.label}
-                          </label>
-
-                          <Field
-                            key={`level-${item}`}
-                            as="select"
-                            name="otherLanguages.level"
-                            className="w-full"
-                            onChange={(
-                              e: React.ChangeEvent<HTMLSelectElement>
-                            ) => {
-                              setFieldValue(`otherLanguages[${index}]`, {
-                                language: item.value,
-                                level: e.target.value,
-                              });
-                            }}
-                          >
-                            <option value="None">Choise Value</option>
-                            <option value="1">Begginer</option>
-                            <option value="2">Elementary</option>
-                            <option value="3">Intermediate</option>
-                            <option value="4">Advanced</option>
-                            <option value="5">Fluent</option>
-                          </Field>
-                        </div>
-                      );
-                    })}
-                </div>
                 <button
                   type="button"
                   className="pr-btn place-self-end"
                   onClick={() => {
+                    console.log(values);
                     setSteps(RegistrationStepsEnum.STEP_2);
                   }}
                 >
                   Back
                 </button>
-                <button
-                  type="submit"
-                  className="pr-btn place-self-end"
-                  onClick={() => {
-                    console.log(values);
-                  }}
-                >
+                <button type="submit" className="pr-btn place-self-end">
                   Submit
                 </button>
               </>
