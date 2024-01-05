@@ -5,6 +5,7 @@ import { fetchLogin } from "../../api/api";
 import { memo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { AxiosError } from "axios";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email().required(),

@@ -33,16 +33,14 @@ export type UpdateProfileType = {
   otherLanguages: StudyLanguages[];
 };
 
-export type RegistrationType = {
+export type ProfileSetupType = {
   birthDate: Date;
-  emails: { value: string }[];
   familyName: string;
   gender: number;
   givenName: string;
   country: string;
   mainLanguage: string[];
   otherLanguages: StudyLanguages[];
-  password: string;
 };
 
 export type RegistrationFormType = {

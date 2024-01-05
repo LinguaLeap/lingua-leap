@@ -6,63 +6,63 @@ import Community from "../pages/Community";
 import Login from "../pages/Login";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
 import TokenGet from "../pages/TokenGet";
-import RegistrationForm from "../components/forms/RegistrationForm";
+import RegistrationForm from "../components/forms/ProfileSetup";
 import EditProfile from "../components/EditProfile";
 import Profile from "../components/Profile";
 import Chat from "../pages/Chat";
 import AboutUs from "../pages/AboutUs";
 
 export const router = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <MainLayoutOutlet />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
         path: "/",
-        element: <MainLayoutOutlet />,
-        errorElement: <ErrorPage />,
+        element: <Home />,
+      },
+      {
+        element: <PrivateRoutes />,
         children: [
-            {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                element: <PrivateRoutes />,
-                children: [
-                    {
-                        path: "/community",
-                        element: <Community />,
-                    },
-                    {
-                        path: "/my-profile",
-                        element: <Profile />,
-                    },
-                    {
-                        path: "/user/:id",
-                        element: <Profile />,
-                    },
-                    {
-                        path: "/edit-profile",
-                        element: <EditProfile />,
-                    },
-                    {
-                        path: "/messages",
-                        element: <Chat />,
-                    },
-                ],
-            },
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/registration",
-                element: <RegistrationForm />,
-            },
-            {
-                path: "about-us",
-                element: <AboutUs />,
-            },
+          {
+            path: "/community",
+            element: <Community />,
+          },
+          {
+            path: "/my-profile",
+            element: <Profile />,
+          },
+          {
+            path: "/user/:id",
+            element: <Profile />,
+          },
+          {
+            path: "/edit-profile",
+            element: <EditProfile />,
+          },
+          {
+            path: "/messages",
+            element: <Chat />,
+          },
         ],
-    },
-    {
-        path: "/token/:token",
-        element: <TokenGet />,
-    },
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/registration",
+        element: <RegistrationForm />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUs />,
+      },
+    ],
+  },
+  {
+    path: "/token/:token",
+    element: <TokenGet />,
+  },
 ]);
