@@ -55,7 +55,7 @@ const LoginForm = memo(() => {
                     onClose={hadleCloseNotification}
                 />
             )} */}
-            <div className="w-full h-full mx-auto my-auto max-w-xs">
+            <div className="m-auto">
                 <div className="mb-2">
                     <GoogleButton />
                 </div>

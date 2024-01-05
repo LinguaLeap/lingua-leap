@@ -6,10 +6,11 @@ type Props = {
 };
 
 const ConversationItem = ({ conversation }: Props) => {
-    const { loggedUser, isLoading } = useAuth();
+    const { loggedUser } = useAuth();
     const sender = conversation.conversation.participants.find(
         (participant) => participant._id !== loggedUser?._id
     );
+
     return (
         <div className="flex p-1 border-b-2">
             <div>
@@ -23,7 +24,11 @@ const ConversationItem = ({ conversation }: Props) => {
                 <div className="text-lg font-semibold">
                     {sender?.givenName + " " + sender?.familyName}
                 </div>
-                <div>{conversation.lastMessage.content}</div>
+                <div>
+                    {conversation.lastMessage?.senderId?._id === loggedUser?._id
+                        ? "You: " + conversation.lastMessage.content
+                        : "" + conversation.lastMessage.content}
+                </div>
             </div>
         </div>
     );

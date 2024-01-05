@@ -17,7 +17,7 @@ const UserCard = ({ user }: { user: UserType }) => {
     console.log("You click on Write Message Button");
   };
 
-  function getFlagEmoji(countryCode: string) {
+  function getFlagEmoji(countryCode: string = "US") {
     const codePoints = countryCode
       .toUpperCase()
       .split("")
@@ -31,7 +31,7 @@ const UserCard = ({ user }: { user: UserType }) => {
         <div className="">
           {user?.photos[0]?.value ? (
             <img
-              src={user.photos[0].value}
+              src={user?.photos[0]?.value}
               className="rounded-full border-white z-10"
             ></img>
           ) : (
@@ -44,10 +44,10 @@ const UserCard = ({ user }: { user: UserType }) => {
               className="font-medium tracking-wide text-slate-900 cursor-pointer hover:text-cyan-700"
               onClick={() => handleOpenProfile(user._id)}
             >
-              {user.givenName} {user.familyName}
+              {user?.givenName} {user?.familyName}
             </div>
-            <div title={decodeCountry[user.country]}>
-              {getFlagEmoji(user.country)}
+            <div title={decodeCountry[user?.country]}>
+              {getFlagEmoji(user?.country)}
             </div>
           </div>
           <div className="flex flex-row gap-x-3">
@@ -78,7 +78,7 @@ const UserCard = ({ user }: { user: UserType }) => {
             I speak:
           </div>
           <ul>
-            {user.mainLanguage.map((language, index) => (
+            {user?.mainLanguage.map((language, index) => (
               <li key={index}>{language}</li>
             ))}
           </ul>
@@ -88,10 +88,10 @@ const UserCard = ({ user }: { user: UserType }) => {
             I want to learn:
           </div>
           <div className="flex flex-row flex-wrap">
-            {user.otherLanguages.map((language, index) => {
+            {user?.otherLanguages.map((language, index) => {
               let customClass = "px-1 m-1 text-white";
               {
-                switch (language.level) {
+                switch (language?.level) {
                   case 1:
                     customClass += ` bg-level-1`;
                     break;
@@ -116,9 +116,9 @@ const UserCard = ({ user }: { user: UserType }) => {
                 <span
                   className={customClass}
                   key={index}
-                  title={decodeLanguage[language.language]}
+                  title={decodeLanguage[language?.language]}
                 >
-                  {language.language}
+                  {language?.language}
                 </span>
               );
             })}
