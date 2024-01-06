@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import IMAGES from "../images/Images";
 import { TiArrowRightOutline } from "react-icons/ti";
+import { memo } from "react";
 
-const MainPage = () => {
+const MainPage = memo(() => {
   return (
     <div className="min-h-screen w-full overflow-hidden">
       <section className="w-full bg-sky-blue-100 dark:bg-rich-navy h-hwh flex flex-col justify-center items-center px-6">
@@ -116,6 +117,6 @@ const MainPage = () => {
       </section>
     </div>
   );
-};
+});
 
 export default MainPage;

@@ -1,11 +1,10 @@
-// ContactUs.tsx
-import React from "react";
+import { memo } from "react";
 
-const ContactUs: React.FC = () => {
+const ContactUs = memo(() => {
   return (
-    <div className=" text-white py-8">
-      <div className="container bg-gray-800 mx-auto mt-8 p-8 rounded-md bg-gray-800">
-        <h2 className="text-4xl font-bold mb-6 text-cyan-500">Contact Us</h2>
+    <div className="w-full text-deep-navy-blue dark:text-white dark:text-opacity-85 flex-1">
+      <div className="container mx-auto mt-8 p-8">
+        <h2 className="text-4xl font-bold mb-6 ">Contact Us</h2>
 
         <p className="text-lg mb-4">
           Thank you for reaching out to Lingualeap! We're here to assist you in
@@ -37,6 +36,6 @@ const ContactUs: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default ContactUs;

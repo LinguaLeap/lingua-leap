@@ -10,15 +10,14 @@ export default {
         xl: "1280px",
         "2xl": "1536px",
       },
-      backgroundImage: {
-        bg: "url('./src/images/bg.jpg')",
-      },
       colors: {
+        light: "#F8F8F8",
         "sky-blue": {
           100: "#e0f4f7",
           200: "#d0e8ee",
           400: "#b5d8de",
           700: "#002634",
+          750: "#011d27",
           800: "#00151a",
         },
         teal: {

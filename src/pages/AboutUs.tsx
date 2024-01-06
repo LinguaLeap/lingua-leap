@@ -1,11 +1,10 @@
-// AboutUs.tsx
-import React from "react";
+import { memo } from "react";
 
-const AboutUs: React.FC = () => {
+const AboutUs = memo(() => {
   return (
-    <div className=" text-white py-8">
-      <div className="container mx-auto bg-gray-800 mt-8 p-8 rounded-md">
-        <h2 className="text-4xl font-bold mb-6 text-cyan-500">About Us</h2>
+    <div className="w-full text-deep-navy-blue dark:text-white dark:text-opacity-85 py-8 min-h-full">
+      <div className="container mx-auto mt-8 p-8">
+        <h2 className="text-4xl font-bold mb-6">About Us</h2>
         <p className="text-lg mb-4">
           Welcome to Lingualeap, where language is a bridge to understanding,
           connecting hearts and minds across borders.
@@ -30,42 +29,44 @@ const AboutUs: React.FC = () => {
         </p>
       </div>
 
-      <div className="container mx-auto bg-gray-800 mt-8 p-8 rounded-md">
-        <h2 className="text-4xl font-bold mb-6 text-cyan-500">
-          Meet Creators!
-        </h2>
-        <h1 className="text-2xl font-bold mb-6 text-cyan-500">
-          Inna movchanchik
-        </h1>
-        <p className="text-lg mb-4">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam nulla
-          repellat odit. Numquam reprehenderit beatae necessitatibus quae, non
-          fugiat minima voluptate deserunt neque dignissimos aut alias, harum
-          temporibus ducimus libero.
-        </p>
+      <div className="container mx-auto mt-8 p-8 rounded-md">
+        <h2 className="text-4xl font-bold mb-6 ">Meet Creators!</h2>
+        <div className="flex flex-col xl:flex-row justify-center items-stretch gap-16">
+          <div className="flex-1 bg-sky-blue-200 dark:bg-sky-blue-700 p-6">
+            <h1 className="text-2xl font-bold mb-6 ">Inna Movchan</h1>
+            <p className="text-lg text-justify">
+              Meet Inna, the team's mood magician with a knack for nail-biting
+              suspense, especially when deadlines loom large. Her nervous habits
+              have the team on edge, thinking she's got a secret angry alter
+              ego. Little do they know, Inna's just spicing up the workplace
+              with her unique, unpredictable energy. Who needs a daily soap
+              opera when you've got Inna turning the office into a sitcom of
+              quirks? She's the flavor we never knew we needed!
+            </p>
+          </div>
+          <div className="flex-1 bg-sky-blue-200 dark:bg-sky-blue-700 p-6">
+            <h6 className="text-2xl font-bold mb-6 ">Muhammed Dilaver</h6>
+            <p className="text-lg mb-4 text-justify">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam
+              nulla repellat odit. Numquam reprehenderit beatae necessitatibus
+              quae, non fugiat minima voluptate deserunt neque dignissimos aut
+              alias, harum temporibus ducimus libero.
+            </p>
+          </div>
 
-        <h6 className="text-2xl font-bold mb-6 text-cyan-500">
-          Muhammed dilaver
-        </h6>
-        <p className="text-lg mb-4">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam nulla
-          repellat odit. Numquam reprehenderit beatae necessitatibus quae, non
-          fugiat minima voluptate deserunt neque dignissimos aut alias, harum
-          temporibus ducimus libero.
-        </p>
-
-        <h6 className="text-2xl font-bold mb-6 text-cyan-500">
-          Devanshi Bansal
-        </h6>
-        <p className="text-lg mb-4">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam nulla
-          repellat odit. Numquam reprehenderit beatae necessitatibus quae, non
-          fugiat minima voluptate deserunt neque dignissimos aut alias, harum
-          temporibus ducimus libero.
-        </p>
+          <div className="flex-1 bg-sky-blue-200 dark:bg-sky-blue-700 py-6 px-8">
+            <h6 className="text-2xl font-bold mb-6 ">Devanshi Bansal</h6>
+            <p className="text-lg mb-4 text-justify">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam
+              nulla repellat odit. Numquam reprehenderit beatae necessitatibus
+              quae, non fugiat minima voluptate deserunt neque dignissimos aut
+              alias, harum temporibus ducimus libero.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
-};
+});
 
 export default AboutUs;
