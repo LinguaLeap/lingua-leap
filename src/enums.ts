@@ -18,3 +18,9 @@ export enum NotificationEnum {
   "SUCCESS_NOTIFICATION" = "notification-error",
   "WARNING_NOTIFICATION" = "notification-warning",
 }
+
+export enum RegistrationStepsEnum {
+  "STEP_1",
+  "STEP_2",
+  "STEP_3",
+}

@@ -68,5 +68,4 @@ const AboutUs = memo(() => {
     </div>
   );
 });
-
 export default AboutUs;
