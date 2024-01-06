@@ -23,6 +23,8 @@ function Chat() {
         });
     }, [socket]);
 
+    
+
     /* const gonder = (content: string, receiver: string) => {
         socket?.emit("sendMessage", {
             toUserId: receiver,
@@ -40,10 +42,8 @@ function Chat() {
             <div className="w-5/6 flex flex-2">
                 {conversationId !== "" ? (
                     <>
-                        <div className="flex-1 p-3 bg-gray-50 ">
-                            <div className="flex-1 max-h-screen overflow-y-auto ">
-                                <Messages conversationId={conversationId} />
-                            </div>
+                        <div className="flex-1 p-2 bg-gray-50">
+                            <Messages conversationId={conversationId} />
                             <div className="flex">
                                 <SendMessage conversationId={conversationId} />
                             </div>

@@ -3,6 +3,7 @@ import ReceivedMessageBubble from "./ReceivedMessageBubble";
 import SendedMessageBubble from "./SendedMessageBubble";
 import { getMessageList } from "../../../api/api";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useEffect, useRef } from "react";
 
 type Props = {
     conversationId: string;
@@ -32,11 +33,26 @@ function Messages({ conversationId }: Props) {
         }
     );
 
+    const messageEl = useRef(null);
+
+    useEffect(() => {
+        if (messageEl.current && !isLoading) {
+            messageEl.current.addEventListener("DOMNodeInserted", (event) => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+            });
+        }
+    }, [data?.pages[0].messages.length]);
+
     if (isLoading) return "Loading...";
     //if (error) return "An error has occurred: " + error.message;
     console.log(data.pages[0].messages);
     return (
-        <div>
+        <div
+            ref={messageEl}
+            className="overflow-y-auto pb-5 max-h-[]"
+            style={{ maxHeight: "calc(100vh - 170px)" }}
+        >
             {data.pages[0].messages.map((message, index) => {
                 return message.senderId === loggedUser?._id ? (
                     <SendedMessageBubble key={index} />
