@@ -6,11 +6,12 @@ import Community from "../pages/Community";
 import Login from "../pages/Login";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
 import TokenGet from "../pages/TokenGet";
-import RegistrationForm from "../components/forms/ProfileSetup";
+import ProfileSetup from "../components/forms/ProfileSetup";
 import EditProfile from "../components/EditProfile";
 import Profile from "../components/Profile";
 import Chat from "../pages/Chat";
 import AboutUs from "../pages/AboutUs";
+import ContactUs from "../pages/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -53,11 +54,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/registration",
-        element: <RegistrationForm />,
+        element: <ProfileSetup />,
       },
       {
-        path: "about-us",
+        path: "/about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
       },
     ],
   },

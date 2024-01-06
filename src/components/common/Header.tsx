@@ -16,10 +16,6 @@ const Header = memo(() => {
     navigate("/login");
   }, [navigate]);
 
-  const handleSingUpButtonClick = useCallback(() => {
-    navigate("/registration");
-  }, [navigate]);
-
   const handleCommunityButtonClick = useCallback(() => {
     navigate("/community");
   }, [navigate]);
@@ -33,11 +29,22 @@ const Header = memo(() => {
   }, [navigate]);
 
   return (
-    <header className="bg-slate-900 px-6 py-8">
-      <div className="content-wrapper flex flex-row justify-between">
+    <header className="bg-sky-blue-200 dark:bg-sky-blue-700 px-6 py-8 z-20">
+      <div className="container mx-auto flex flex-row justify-between">
         <div>
           <img
-            src={Images.logo}
+            className="block dark:hidden"
+            src={Images["logo-black"]}
+            height={30}
+            width={73}
+            alt="logo"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+          <img
+            className="hidden dark:block opacity-85"
+            src={Images["logo"]}
             height={30}
             width={73}
             alt="logo"
@@ -52,33 +59,34 @@ const Header = memo(() => {
               <button
                 title="Click to login"
                 onClick={handleLoginButtonClick}
-                className="pr-btn"
+                className="link-light-mode"
               >
-                <IoMdLogIn color="white" size={20} />
-                <span className="text-white">Login</span>
-              </button>
-              <button
-                title="Click to Registration"
-                onClick={handleSingUpButtonClick}
-                className="pr-btn"
-              >
-                <IoMdLogIn color="white" size={20} />
-                <span className="text-white">Sing Up</span>
+                <IoMdLogIn size={20} />
+                <span>Login</span>
               </button>
             </>
           ) : (
             <>
-              <button onClick={handleCommunityButtonClick} className="pr-btn">
-                <GoPeople color="white" size={20} />
-                <span className="text-white">Community</span>
+              <button
+                onClick={handleCommunityButtonClick}
+                className="link-light-mode"
+              >
+                <GoPeople size={20} />
+                <span>Community</span>
               </button>
-              <button onClick={handleMessagesButtonClick} className="pr-btn">
-                <TiMessages color="white" size={20} />
-                <span className="text-white">Messages</span>
+              <button
+                onClick={handleMessagesButtonClick}
+                className="link-light-mode"
+              >
+                <TiMessages size={20} />
+                <span>Messages</span>
               </button>
-              <button onClick={handleProfileButtonClick} className="pr-btn">
-                <CiUser color="white" size={20} />
-                <span className="text-white">My Profile</span>
+              <button
+                onClick={handleProfileButtonClick}
+                className="link-light-mode"
+              >
+                <CiUser size={20} />
+                <span>My Profile</span>
               </button>
             </>
           )}

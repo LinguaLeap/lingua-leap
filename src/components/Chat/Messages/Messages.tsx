@@ -6,62 +6,61 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useEffect, useRef } from "react";
 
 type Props = {
-    conversationId: string;
+  conversationId: string;
 };
 
 function Messages({ conversationId }: Props) {
-    const { loggedUser } = useAuth();
-    const {
-        fetchNextPage,
-        fetchPreviousPage,
-        hasNextPage,
-        hasPreviousPage,
-        isFetchingNextPage,
-        isFetchingPreviousPage,
-        isLoading,
-        error,
-        data,
-        ...result
-    } = useInfiniteQuery(
-        ["messages"],
-        ({ pageParam = 1 }) => getMessageList({ conversationId, pageParam }),
-        {
-            getNextPageParam: (lastPage, allPages) =>
-                lastPage.pageInfo.nextPage,
-            getPreviousPageParam: (firstPage, allPages) =>
-                firstPage.pageInfo.prevPage,
-        }
-    );
+  const { loggedUser } = useAuth();
+  const {
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    isLoading,
+    error,
+    data,
+    ...result
+  } = useInfiniteQuery(
+    ["messages"],
+    ({ pageParam = 1 }) => getMessageList({ conversationId, pageParam }),
+    {
+      getNextPageParam: (lastPage, allPages) => lastPage.pageInfo.nextPage,
+      getPreviousPageParam: (firstPage, allPages) =>
+        firstPage.pageInfo.prevPage,
+    }
+  );
 
-    const messageEl = useRef(null);
+  const messageEl = useRef(null);
 
-    useEffect(() => {
-        if (messageEl.current && !isLoading) {
-            messageEl.current.addEventListener("DOMNodeInserted", (event) => {
-                const { currentTarget: target } = event;
-                target.scroll({ top: target.scrollHeight, behavior: "smooth" });
-            });
-        }
-    }, [data?.pages[0].messages.length]);
+  useEffect(() => {
+    if (messageEl.current && !isLoading) {
+      messageEl.current.addEventListener("DOMNodeInserted", (event) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
+    }
+  }, [data?.pages[0].messages.length]);
 
-    if (isLoading) return "Loading...";
-    //if (error) return "An error has occurred: " + error.message;
-    console.log(data.pages[0].messages);
-    return (
-        <div
-            ref={messageEl}
-            className="overflow-y-auto pb-5 max-h-[]"
-            style={{ maxHeight: "calc(100vh - 170px)" }}
-        >
-            {data.pages[0].messages.map((message, index) => {
-                return message.senderId === loggedUser?._id ? (
-                    <SendedMessageBubble key={index} />
-                ) : (
-                    <ReceivedMessageBubble key={index} />
-                );
-            })}
-        </div>
-    );
+  if (isLoading) return "Loading...";
+  //if (error) return "An error has occurred: " + error.message;
+  console.log(data.pages[0].messages);
+  return (
+    <div
+      ref={messageEl}
+      className="overflow-y-auto pb-5 max-h-[]"
+      style={{ maxHeight: "calc(100vh - 170px)" }}
+    >
+      {data.pages[0].messages.map((message, index) => {
+        return message.senderId === loggedUser?._id ? (
+          <SendedMessageBubble key={index} />
+        ) : (
+          <ReceivedMessageBubble key={index} />
+        );
+      })}
+    </div>
+  );
 }
 
 export default Messages;
