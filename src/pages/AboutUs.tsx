@@ -4,7 +4,7 @@ import React from "react";
 const AboutUs: React.FC = () => {
   return (
     <div className=" text-white py-8">
-      <div className="content-wrapper bg-gray-800 mx-auto mt-8 p-8 rounded-md">
+      <div className="container mx-auto bg-gray-800 mt-8 p-8 rounded-md">
         <h2 className="text-4xl font-bold mb-6 text-cyan-500">About Us</h2>
         <p className="text-lg mb-4">
           Welcome to Lingualeap, where language is a bridge to understanding,
@@ -30,7 +30,7 @@ const AboutUs: React.FC = () => {
         </p>
       </div>
 
-      <div className="content-wrapper bg-gray-800 mx-auto mt-8 p-8 rounded-md">
+      <div className="container mx-auto bg-gray-800 mt-8 p-8 rounded-md">
         <h2 className="text-4xl font-bold mb-6 text-cyan-500">
           Meet Creators!
         </h2>
