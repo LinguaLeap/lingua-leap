@@ -69,3 +69,16 @@ export const getConversationsList = async () => {
     );
     return data;
 };
+export interface MessageListParams {
+    conversationId: string; 
+    page: number;
+ }
+export const getMessageList = async ({conversationId, pageParam = 1}) => {
+    const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_ENDPOINT}/chat`, {
+            conversationId,
+            page: pageParam
+        }
+    );
+    return data;
+};
