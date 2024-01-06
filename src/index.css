@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.pr-btn {
-  @apply flex flex-row gap-x-3 items-center bg-slate-900 hover:bg-slate-800 p-2 rounded w-max text-white;
+.link-light-mode {
+  @apply text-deep-navy-blue dark:text-white dark:text-opacity-85 flex flex-row gap-x-3 hover:bg-white hover:bg-opacity-35 dark:hover:bg-opacity-15 rounded items-center px-2 py-1;
 }
-.content-wrapper {
-  @apply xl:max-w-screen-xl sm:max-w-screen-lg w-full mx-auto;
+
+.button-light-mode {
+  @apply bg-teal-600 text-white px-8 py-3 rounded-full font-semibold transition duration-300 hover:bg-teal-700 hover:text-white;
 }
 
 .orage-button {
