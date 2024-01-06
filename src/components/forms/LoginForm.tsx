@@ -56,19 +56,18 @@ const LoginForm = memo(() => {
                     onClose={hadleCloseNotification}
                 />
             )} */}
-      <div className="w-full h-full mx-auto my-auto max-w-xs">
-        <div className="mb-2">
-          <GoogleButton />
-        </div>
-        {status && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            <span className="block sm:inline">{status}</span>
-          </div>
-        )}
-
+            <div className="m-auto">
+                <div className="mb-2">
+                    <GoogleButton />
+                </div>
+                {status && (
+                    <div
+                        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        role="alert"
+                    >
+                        <span className="block sm:inline">{status}</span>
+                    </div>
+                )}
         <form
           onSubmit={formik.handleSubmit}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
