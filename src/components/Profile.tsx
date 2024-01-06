@@ -52,7 +52,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="content-wrapper bg-slate-500 p-9 box-border">
+    <div className="mx-auto bg-slate-500 p-9 box-border">
       <div className="flex flex-row items-start gap-x-6">
         <div>
           <NoPhoto size="big" />
