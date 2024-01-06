@@ -70,8 +70,8 @@ export const getConversationsList = async () => {
     return data;
 };
 export interface MessageListParams {
-    conversationId: string; // or whatever the correct type is
-    page: number; // or whatever the correct type is
+    conversationId: string; 
+    page: number;
  }
 export const getMessageList = async ({conversationId, pageParam = 1}) => {
     const { data } = await axios.post(
