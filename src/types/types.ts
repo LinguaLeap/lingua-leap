@@ -45,6 +45,18 @@ export type RegistrationType = {
   password: string;
 };
 
+export type RegistrationFormType = {
+  birthDate: Date;
+  email: string;
+  familyName: string;
+  gender: number;
+  givenName: string;
+  country: string;
+  mainLanguage: string[];
+  otherLanguages: StudyLanguages[];
+  password: string;
+};
+
 export interface Option {
   label: string;
   value: string;
