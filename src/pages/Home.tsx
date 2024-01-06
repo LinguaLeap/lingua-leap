@@ -14,7 +14,7 @@ const MainPage = memo(() => {
           <p className="text-lg mb-8">
             Connect with language learners worldwide.
           </p>
-          <Link to="/login" className="button-light-mode">
+          <Link to="/login" className="button">
             Get Started
           </Link>
         </div>
@@ -106,7 +106,7 @@ const MainPage = memo(() => {
             <h2 className="text-2xl font-bold text-deep-navy-blue dark:text-white dark:text-opacity-85 mb-8">
               Ready to start your language learning journey?
             </h2>
-            <Link to="/login" className="button-light-mode">
+            <Link to="/login" className="button">
               Get Started
             </Link>
           </div>

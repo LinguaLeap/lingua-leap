@@ -59,7 +59,7 @@ const Header = memo(() => {
               <button
                 title="Click to login"
                 onClick={handleLoginButtonClick}
-                className="link-light-mode"
+                className="link"
               >
                 <IoMdLogIn size={20} />
                 <span>Login</span>
@@ -67,24 +67,15 @@ const Header = memo(() => {
             </>
           ) : (
             <>
-              <button
-                onClick={handleCommunityButtonClick}
-                className="link-light-mode"
-              >
+              <button onClick={handleCommunityButtonClick} className="link">
                 <GoPeople size={20} />
                 <span>Community</span>
               </button>
-              <button
-                onClick={handleMessagesButtonClick}
-                className="link-light-mode"
-              >
+              <button onClick={handleMessagesButtonClick} className="link">
                 <TiMessages size={20} />
                 <span>Messages</span>
               </button>
-              <button
-                onClick={handleProfileButtonClick}
-                className="link-light-mode"
-              >
+              <button onClick={handleProfileButtonClick} className="link">
                 <CiUser size={20} />
                 <span>My Profile</span>
               </button>

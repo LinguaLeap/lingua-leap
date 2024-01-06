@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.link-light-mode {
-  @apply text-deep-navy-blue dark:text-white dark:text-opacity-85 flex flex-row gap-x-3 hover:bg-white hover:bg-opacity-35 dark:hover:bg-opacity-15 rounded items-center px-2 py-1;
+.link {
+  @apply text-deep-navy-blue dark:text-white dark:text-opacity-85 hover:text-teal-700 flex flex-row gap-x-3 rounded items-center px-2 py-1;
 }
 
-.button-light-mode {
+.button {
   @apply bg-teal-600 text-white px-8 py-3 rounded-full font-semibold transition duration-300 hover:bg-teal-700 hover:text-white;
 }
 
