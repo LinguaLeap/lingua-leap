@@ -4,7 +4,7 @@ import { NotificationEnum } from "../enums";
 
 export enum LanguageCardNum {
   STUDY = "Study languages",
-  MAIN = "Mother Tongue",
+  MAIN = "My Languages",
 }
 
 export type LanguageCardType = {
@@ -33,16 +33,14 @@ export type UpdateProfileType = {
   otherLanguages: StudyLanguages[];
 };
 
-export type RegistrationType = {
+export type ProfileSetupType = {
   birthDate: Date;
-  emails: { value: string }[];
   familyName: string;
   gender: number;
   givenName: string;
   country: string;
   mainLanguage: string[];
   otherLanguages: StudyLanguages[];
-  password: string;
 };
 
 export type RegistrationFormType = {

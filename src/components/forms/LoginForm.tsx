@@ -5,6 +5,7 @@ import { fetchLogin } from "../../api/api";
 import { memo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { Input } from "antd";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -55,30 +56,30 @@ const LoginForm = memo(() => {
                     onClose={hadleCloseNotification}
                 />
             )} */}
-            <div className="m-auto">
-                <div className="mb-2">
-                    <GoogleButton />
-                </div>
-                {status && (
-                    <div
-                        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                        role="alert"
-                    >
-                        <span className="block sm:inline">{status}</span>
-                    </div>
-                )}
+      <div className="w-full h-full mx-auto my-auto max-w-md px-4">
+        <div className="mb-2">
+          <GoogleButton />
+        </div>
+        {status && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
+            <span className="block sm:inline">{status}</span>
+          </div>
+        )}
         <form
           onSubmit={formik.handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white dark:bg-deeper-sea-blue shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-sky-blue-700  dark:text-white dark:text-opacity-85 text-sm font-bold mb-2"
               htmlFor="username"
             >
               E-mail
             </label>
-            <input
+            <Input
               name="email"
               id="email"
               onChange={formik.handleChange}
@@ -87,24 +88,22 @@ const LoginForm = memo(() => {
               value={formik.values.email}
               className={
                 formik.errors.email && formik.touched.email
-                  ? "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  : "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  ? "shadow appearance-none border-red-500 rounded w-full py-2 px-3 text-sky-blue-700  dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  : "shadow appearance-none rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85 leading-tight focus:outline-none focus:shadow-outline"
               }
             />
             {formik.errors.email && formik.touched.email && (
-              <p className="text-red-500 text-xs italic">
-                {formik.errors.email}
-              </p>
+              <p className="text-red-500 text-xs">{formik.errors.email}</p>
             )}
           </div>
           <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-sky-blue-700 dark:text-white dark:text-opacity-85 text-sm font-bold mb-2"
               htmlFor="password"
             >
               Password
             </label>
-            <input
+            <Input
               name="password"
               type="password"
               onChange={formik.handleChange}
@@ -113,35 +112,24 @@ const LoginForm = memo(() => {
               placeholder="password..."
               className={
                 formik.errors.password && formik.touched.password
-                  ? "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  : "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  ? "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  : "shadow appearance-none border rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  leading-tight focus:outline-none focus:shadow-outline"
               }
               id="password"
             />
             {formik.errors.password && formik.touched.password && (
-              <p className="text-red-500 text-xs italic">
-                {formik.errors.password}
-              </p>
+              <p className="text-red-500 text-xs">{formik.errors.password}</p>
             )}
           </div>
           <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
+            <button className="button" type="submit">
               Sign In
             </button>
-            <a
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              href="#"
-            >
+            <a className="inline-block align-baseline link" href="#">
               Forgot Password?
             </a>
           </div>
         </form>
-        <p className="text-center text-gray-500 text-xs">
-          &copy;2024 Lingua Leap. All rights reserved.
-        </p>
       </div>
     </>
   );

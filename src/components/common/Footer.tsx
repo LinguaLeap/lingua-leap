@@ -5,25 +5,25 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-teal-600 dark:bg-sky-blue-800 text-white pt-8 pb-2">
+    <footer className="bg-teal-600 dark:bg-sky-blue-800 text-white pt-8 pb-2 px-6">
       <div className="container mx-auto flex justify-between items-center">
         <div className="space-x-4">
           <Link
             to="/"
-            className="text-white dark:text-opacity-85 hover:border-b-2 hover:border-white transition-all duration-300"
+            className="text-white dark:text-opacity-85 hover:text-rich-navy dark:hover:text-teal-600 hover:border-white transition-all duration-300"
           >
             Home
           </Link>
           <Link
             to="/about-us"
-            className="text-white dark:text-opacity-85 hover:border-b-2 hover:border-white transition-all duration-300"
+            className="text-white dark:text-opacity-85 hover:text-rich-navy dark:hover:text-teal-600 hover:border-white transition-all duration-300"
           >
             About Us
           </Link>
 
           <Link
             to="/contact-us"
-            className="text-white dark:text-opacity-85 hover:border-b-2 hover:border-white transition-all duration-300"
+            className="text-white dark:text-opacity-85 hover:text-rich-navy dark:hover:text-teal-600 hover:border-white transition-all duration-300"
           >
             Contact Us
           </Link>
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
             href="https://www.facebook.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-lg hover:text-cyan-500 transition-all duration-300 dark:text-opacity-85"
+            className="text-white text-lg hover:text-rich-navy dark:hover:text-teal-600 transition-all duration-300 dark:text-opacity-85"
           >
             <FaFacebook />
           </a>
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
             href="https://twitter.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-lg hover:text-cyan-500 transition-all duration-300 dark:text-opacity-85"
+            className="text-white text-lg hover:text-rich-navy dark:hover:text-teal-600 transition-all duration-300 dark:text-opacity-85"
           >
             <FaTwitter />
           </a>
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
             href="https://www.instagram.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-lg hover:text-cyan-500 transition-all duration-300 dark:text-opacity-85"
+            className="text-white text-lg hover:text-rich-navy dark:hover:text-teal-600 transition-all duration-300 dark:text-opacity-85"
           >
             <FaInstagram />
           </a>
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
             href="https://www.linkedin.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-lg hover:text-cyan-500 transition-all duration-300 dark:text-opacity-85"
+            className="text-white text-lg hover:text-rich-navy dark:hover:text-teal-600 transition-all duration-300 dark:text-opacity-85"
           >
             <FaLinkedin />
           </a>

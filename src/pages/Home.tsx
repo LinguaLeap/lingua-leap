@@ -14,7 +14,7 @@ const MainPage = memo(() => {
           <p className="text-lg mb-8">
             Connect with language learners worldwide.
           </p>
-          <Link to="/login" className="button-light-mode">
+          <Link to="/login" className="button">
             Get Started
           </Link>
         </div>
@@ -23,12 +23,12 @@ const MainPage = memo(() => {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-deeper-sea-blue p-24 shadow-md z-20 relative">
+      <section className="bg-white dark:bg-deeper-sea-blue py-24 shadow-md z-20 relative">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-deep-navy-blue dark:text-white dark:text-opacity-85">
             How It Works
           </h2>
-          <div className="flex flex-row justify-center items-stretch gap-8">
+          <div className="flex flex-col xl:flex-row justify-center items-stretch gap-8">
             <div className="bg-light-beige dark:bg-rich-navy p-6 rounded-md shadow-md flex flex-col flex-1 items-start justify-center">
               <h3 className="text-deep-navy-blue dark:text-white dark:text-opacity-85 text-xl font-semibold mb-2">
                 Step 1
@@ -39,7 +39,7 @@ const MainPage = memo(() => {
             </div>
             <TiArrowRightOutline
               size={64}
-              className="text-teal-700 self-center  dark:text-white dark:text-opacity-85"
+              className="text-teal-700 self-center rotate-90 xl:rotate-0 dark:text-white dark:text-opacity-85"
             />
 
             <div className="bg-light-beige dark:bg-rich-navy  p-6 rounded-md shadow-md flex flex-col flex-1 items-start justify-center">
@@ -52,7 +52,7 @@ const MainPage = memo(() => {
             </div>
             <TiArrowRightOutline
               size={64}
-              className="text-teal-700  dark:text-white dark:text-opacity-85 self-center"
+              className="text-teal-700 rotate-90 xl:rotate-0 dark:text-white dark:text-opacity-85 self-center"
             />
 
             <div className="bg-light-beige dark:bg-rich-navy  p-6 rounded-md shadow-md flex flex-col flex-1 items-start justify-center">
@@ -72,7 +72,7 @@ const MainPage = memo(() => {
           <h2 className="text-deep-navy-blue dark:text-white dark:text-opacity-85 text-3xl font-bold mb-8">
             What Our Users Say
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-col xl:flex-row justify-center items-stretch gap-8">
             <div className="p-6 rounded-md bg-white dark:bg-rich-navy bg-opacity-75 shadow-md">
               <p className="text-lg text-deep-navy-blue  dark:text-white dark:text-opacity-85">
                 "I've made great progress in learning Spanish through this
@@ -106,7 +106,7 @@ const MainPage = memo(() => {
             <h2 className="text-2xl font-bold text-deep-navy-blue dark:text-white dark:text-opacity-85 mb-8">
               Ready to start your language learning journey?
             </h2>
-            <Link to="/login" className="button-light-mode">
+            <Link to="/login" className="button">
               Get Started
             </Link>
           </div>
