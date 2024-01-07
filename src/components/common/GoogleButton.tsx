@@ -9,7 +9,7 @@ const GoogleButton = memo(() => {
   return (
     <button
       onClick={handkeClick}
-      className="flex w-full items-center justify-center bg-white dark:bg-teal-600 dark:hover:bg-teal-700 rounded px-6 py-2 text-sm font-medium text-deep-navy-blue dark:text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 shadow-md rounded"
+      className="flex w-full items-center justify-center bg-white dark:bg-teal-600 dark:hover:bg-teal-700 rounded px-6 py-2 text-sm font-medium text-deep-navy-blue dark:text-white hover:bg-gray-200"
     >
       <svg
         className="h-6 w-6 mr-2"

@@ -4,7 +4,7 @@ import { NotificationEnum } from "../enums";
 
 export enum LanguageCardNum {
   STUDY = "Study languages",
-  MAIN = "Mother Tongue",
+  MAIN = "My Languages",
 }
 
 export type LanguageCardType = {

@@ -5,9 +5,7 @@ import ErrorPage from "../pages/ErrorPage";
 import Community from "../pages/Community";
 import Login from "../pages/Login";
 import MainLayoutOutlet from "../layouts/MainLayoutOutlet";
-import TokenGet from "../pages/TokenGet";
 import ProfileSetup from "../components/forms/ProfileSetup";
-import EditProfile from "../components/EditProfile";
 import Profile from "../components/Profile";
 import Chat from "../pages/Chat";
 import AboutUs from "../pages/AboutUs";
@@ -40,8 +38,9 @@ export const router = createBrowserRouter([
           },
           {
             path: "/edit-profile",
-            element: <EditProfile />,
+            element: <ProfileSetup />,
           },
+
           {
             path: "/messages",
             element: <Chat />,
@@ -53,7 +52,7 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/registration",
+        path: "/setup-profile",
         element: <ProfileSetup />,
       },
       {
@@ -65,9 +64,5 @@ export const router = createBrowserRouter([
         element: <ContactUs />,
       },
     ],
-  },
-  {
-    path: "/token/:token",
-    element: <TokenGet />,
   },
 ]);
