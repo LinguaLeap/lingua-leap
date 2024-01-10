@@ -28,6 +28,7 @@ module.exports = {
     sourceType: 'module',
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
+    extraFileExtensions: ['.css'],
   },
   plugins: ['@typescript-eslint', 'react'],
   rules: {
