@@ -23,7 +23,7 @@ function ConversationsList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (isLoading || conversationList?.length === 0) return 'Loading...';
+  if (isLoading || !conversationList || conversationList?.length === 0) return 'Loading...';
   // @ts-ignore
   if (error) return `An error has occurred: ${error.message}`;
 
