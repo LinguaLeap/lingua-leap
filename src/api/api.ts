@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import axios from 'axios';
-import { LoginType, UpdateProfileType } from '../types/types';
+import { FiltersType, LoginType, UpdateProfileType } from '../types/types';
 
 axios.interceptors.request.use(
   (config) => {
@@ -15,7 +16,7 @@ axios.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 export const fetchMe = async () => {
@@ -26,22 +27,35 @@ export const fetchMe = async () => {
 export const fetchLogin = async (params: LoginType) => {
   const data = await axios.post(
     `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/login`,
-    params,
+    params
   );
-  console.log(data);
   return data;
 };
 
 export const update = async (params: UpdateProfileType) => {
   const data = await axios.put(
     `${import.meta.env.VITE_BACKEND_ENDPOINT}/auth/update`,
-    params,
+    params
   );
   return data;
 };
 
 export const getUsersList = async () => {
   const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/users/`);
+  return data;
+};
+
+export const getFilteredUsersList = async ({
+  params,
+  pageParam = 1,
+}: {
+  params: FiltersType;
+  pageParam: number;
+}) => {
+  const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/users/`, {
+    pageParam,
+    ...params,
+  });
   return data;
 };
 

@@ -1,3 +1,5 @@
+import { StudyLanguages } from './types';
+
 export interface UserType {
   _id: string;
   googleId: string;
@@ -10,7 +12,7 @@ export interface UserType {
   emails: Email[];
   country: string;
   mainLanguage: string[];
-  otherLanguages: LanguageLevel[];
+  otherLanguages: StudyLanguages[];
   createdAt: string;
 }
 
@@ -23,9 +25,4 @@ export interface Email {
   value: string;
   verified: boolean;
   _id: string;
-}
-
-export interface LanguageLevel {
-  language: string;
-  level: number;
 }

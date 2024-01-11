@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/display-name */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Input } from 'antd';
+import { AxiosError } from 'axios';
 import GoogleButton from '../common/GoogleButton';
 import { fetchLogin } from '../../api/api';
 import { useAuth } from '../../contexts/AuthContext';
@@ -36,8 +38,9 @@ function LoginForm() {
           login(loginResponse.data.token);
         }
       } catch (error) {
-        console.log(error);
-        setStatus(error.response.data.message);
+        if (error instanceof AxiosError) {
+          setStatus(error.response?.data.message);
+        }
       }
     },
   });
@@ -66,7 +69,7 @@ function LoginForm() {
         </div>
         {status && (
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-2"
             role="alert"
           >
             <span className="block sm:inline">{status}</span>
