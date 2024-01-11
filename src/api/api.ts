@@ -46,15 +46,15 @@ export const getUsersList = async () => {
 };
 
 export const getFilteredUsersList = async ({
-  params,
+  filters,
   pageParam = 1,
 }: {
-  params: FiltersType;
+  filters: FiltersType;
   pageParam: number;
 }) => {
   const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/users/`, {
     pageParam,
-    ...params,
+    ...filters,
   });
   return data;
 };

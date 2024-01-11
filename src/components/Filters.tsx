@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-curly-newline */
@@ -42,7 +43,24 @@ export default function Filters({
       }}
       validationSchema={FiltersSchema}
       onSubmit={(values) => {
-        onSearch(values);
+        const filterData = { ...values };
+        if (filterData.language === '') {
+          // @ts-ignore
+          delete filterData.language;
+        }
+        if (values.level === '') {
+          // @ts-ignore
+          delete filterData.level;
+        }
+        if (values.country === '') {
+          // @ts-ignore
+          delete filterData.country;
+        }
+        if (values.gender === '') {
+          // @ts-ignore
+          delete filterData.gender;
+        }
+        onSearch(filterData);
       }}
     >
       {({ values, setFieldValue }) => (
