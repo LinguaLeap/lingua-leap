@@ -20,6 +20,7 @@ module.exports = {
       parserOptions: {
         sourceType: 'script',
       },
+      rules: { 'at-rule-no-unknown': 'off' },
     },
   ],
   parser: '@typescript-eslint/parser',
@@ -28,9 +29,11 @@ module.exports = {
     sourceType: 'module',
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
+    extraFileExtensions: ['.css'],
   },
   plugins: ['@typescript-eslint', 'react'],
   rules: {
     'react/react-in-jsx-scope': 0,
+    'at-rule-no-unknown': 0,
   },
 };
