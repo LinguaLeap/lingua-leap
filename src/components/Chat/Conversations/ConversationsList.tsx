@@ -7,9 +7,7 @@ import { ConversationItemType } from '../../../types/Conversations';
 
 type Props = {
   conversationList: Array<ConversationItemType> | [];
-  setConversationList: (
-    conversationList: Array<ConversationItemType> | []
-  ) => void;
+  setConversationList: (conversationList: Array<ConversationItemType> | []) => void;
   setConversation: (conversation: ConversationItemType) => void;
 };
 
@@ -18,18 +16,17 @@ function ConversationsList({
   setConversationList,
   setConversation,
 }: Props) {
-  const { isLoading, error, data } = useQuery(
-    'conversationList',
-    getConversationsList
-  );
+  const { isLoading, error, data } = useQuery('conversationList', getConversationsList);
 
   useEffect(() => {
     setConversationList(data as Array<ConversationItemType>);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (isLoading || !conversationList || conversationList?.length === 0)
+  if (isLoading || !conversationList || conversationList?.length === 0) {
     return 'Loading...';
+  }
+
   // @ts-ignore
   if (error) return `An error has occurred: ${error.message}`;
 

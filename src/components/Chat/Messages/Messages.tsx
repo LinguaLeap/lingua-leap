@@ -49,8 +49,7 @@ function Messages({ conversation, messages, setMessages }: Props) {
   useEffect(() => {
     if (messageContainer.current && !isLoading) {
       const { scrollTop, scrollHeight, clientHeight } = messageContainer.current;
-
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
+      if (scrollTop + clientHeight >= scrollHeight - 400) {
         // @ts-ignore
         messageContainer.current.scrollTop = scrollHeight;
         setLastHeight(scrollHeight);
