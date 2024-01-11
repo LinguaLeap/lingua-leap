@@ -7,7 +7,11 @@
 }
 
 .button {
-  @apply bg-teal-600 text-white px-8 py-3 rounded-full font-semibold transition duration-300 hover:bg-teal-700 hover:text-white;
+  @apply bg-teal-600 dark:bg-white dark:bg-opacity-50 text-white px-8 py-2 rounded-full font-semibold transition duration-300 hover:bg-teal-700 dark:hover:bg-white dark:hover:bg-opacity-75 hover:text-white;
+}
+
+.white-button {
+  @apply bg-white bg-opacity-45 hover:bg-opacity-55 text-white rounded-3xl px-4 py-1 flex flex-row justify-center items-center gap-x-2;
 }
 
 .notification-success {

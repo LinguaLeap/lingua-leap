@@ -1,16 +1,22 @@
-import { Formik, Field, Form } from "formik";
-import languageOptions from "../../static/languages.json";
-import countryOptions from "../../static/countries.json";
-import levelsOptions from "../../static/leveles.json";
-import * as Yup from "yup";
-import CustomSelect from "../CustomSelect";
-import { memo, useCallback } from "react";
-import { Option, ProfileSetupType } from "../../types/types";
-import { update } from "../../api/api";
-import dayjs from "dayjs";
-import { Select, Input, DatePicker, Radio } from "antd";
-import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react/function-component-definition */
+import { Formik, Field, Form } from 'formik';
+import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line object-curly-newline
+import { Select, Input, DatePicker, Radio } from 'antd';
+import dayjs from 'dayjs';
+import { useCallback } from 'react';
+import * as Yup from 'yup';
+import languageOptions from '../../static/languages.json';
+import countryOptions from '../../static/countries.json';
+import CustomSelect from '../CustomSelect';
+import { Option, ProfileSetupType, StudyLanguages } from '../../types/types';
+import { fetchMe, update } from '../../api/api';
+import { useAuth } from '../../contexts/AuthContext';
+import CustomCascader from './CustomCascader';
 
 const startDate = new Date(
   new Date().getFullYear() - 13,
@@ -18,35 +24,38 @@ const startDate = new Date(
   new Date().getDate()
 );
 
-const ProfileSetup = memo(() => {
-  const { loggedUser, isLoading } = useAuth();
+const ProfileSetup = () => {
+  const { loggedUser, isLoading, setUserData } = useAuth();
   const navigate = useNavigate();
 
   const ProfileSetupSchema = Yup.object({
-    givenName: Yup.string().required("Given Name is required"),
-    familyName: Yup.string().required("Family Name is required"),
+    givenName: Yup.string().required('Given Name is required'),
+    familyName: Yup.string().required('Family Name is required'),
     birthDate: Yup.date()
       .max(
         new Date(new Date().setFullYear(new Date().getFullYear() - 13)),
-        "Must be at least 13 years old"
+        'Must be at least 13 years old'
       )
-      .required("Birth Date is required"),
-    country: Yup.string().required("Country is required"),
-    gender: Yup.string().required("Gender is required"),
+      .required('Birth Date is required'),
+    country: Yup.string().required('Country is required'),
+    gender: Yup.string().required('Gender is required'),
     mainLanguage: Yup.array()
-      .min(1, "Select at least one option")
-      .required("Main Languages is required"),
+      .min(1, 'Select at least one option')
+      .required('Main Languages is required'),
   });
 
   const handleProfileSetupSubmit = useCallback(
     async (data: ProfileSetupType) => {
       const res = await update(data);
       if (res.status === 200) {
-        console.log("2");
-        navigate("/community");
+        const response = await fetchMe();
+        if (response.status === 200) {
+          setUserData(response.data.user);
+          navigate('/community');
+        }
       }
     },
-    [navigate]
+    [navigate, setUserData]
   );
 
   if (isLoading) {
@@ -58,12 +67,12 @@ const ProfileSetup = memo(() => {
       <Formik
         initialValues={{
           birthDate: loggedUser?.birthDate ?? startDate,
-          familyName: loggedUser?.familyName ?? "",
+          familyName: loggedUser?.familyName ?? '',
           gender: loggedUser?.gender ?? 1,
-          givenName: loggedUser?.givenName ?? "",
-          country: loggedUser?.country ?? "",
+          givenName: loggedUser?.givenName ?? '',
+          country: loggedUser?.country ?? '',
           mainLanguage: loggedUser?.mainLanguage ?? ([] as string[]),
-          otherLanguages: [{ language: "EN", level: "4" }],
+          otherLanguages: loggedUser?.otherLanguages ?? ([] as StudyLanguages[]),
         }}
         validationSchema={ProfileSetupSchema}
         onSubmit={async (values) => {
@@ -125,11 +134,11 @@ const ProfileSetup = memo(() => {
                   format="DD/MM/YYYY"
                   value={dayjs(values.birthDate)}
                   onChange={(date) => {
-                    setFieldValue("birthDate", dayjs(date));
+                    setFieldValue('birthDate', dayjs(date));
                   }}
                 />
 
-                {errors.birthDate && typeof errors.birthDate === "string" && (
+                {errors.birthDate && typeof errors.birthDate === 'string' && (
                   <div className="text-red-600">{errors.birthDate}</div>
                 )}
               </div>
@@ -148,13 +157,11 @@ const ProfileSetup = memo(() => {
                   component={CustomSelect}
                   isMulti={false}
                   onChangeField={(newValue: Option) => {
-                    setFieldValue(`country`, newValue.value);
+                    setFieldValue('country', newValue.value);
                   }}
                 />
 
-                {errors.country && (
-                  <div className="text-red-600">{errors.country}</div>
-                )}
+                {errors.country && <div className="text-red-600">{errors.country}</div>}
               </div>
             </div>
             <div className="my-2">
@@ -167,33 +174,23 @@ const ProfileSetup = memo(() => {
 
               <div>
                 <Radio.Group
-                  onChange={(value) =>
-                    setFieldValue("gender", value.target.value)
+                  onChange={
+                    (value) => setFieldValue('gender', value.target.value)
+                    // eslint-disable-next-line react/jsx-curly-newline
                   }
                   value={values.gender}
                 >
-                  <Radio
-                    value={1}
-                    className="dark:text-white dark:text-opacity-85"
-                  >
+                  <Radio value={1} className="dark:text-white dark:text-opacity-85">
                     Male
                   </Radio>
-                  <Radio
-                    value={2}
-                    className="dark:text-white dark:text-opacity-85"
-                  >
+                  <Radio value={2} className="dark:text-white dark:text-opacity-85">
                     Female
                   </Radio>
-                  <Radio
-                    value={3}
-                    className="dark:text-white dark:text-opacity-85"
-                  >
+                  <Radio value={3} className="dark:text-white dark:text-opacity-85">
                     Other
                   </Radio>
                 </Radio.Group>
-                {errors.gender && (
-                  <div className="text-red-600">{errors.gender}</div>
-                )}
+                {errors.gender && <div className="text-red-600">{errors.gender}</div>}
               </div>
             </div>
             <div className="my-2">
@@ -210,7 +207,7 @@ const ProfileSetup = memo(() => {
                   placeholder="Please select"
                   defaultValue={loggedUser?.mainLanguage ?? []}
                   onChange={(value: string[]) => {
-                    setFieldValue("mainLanguage", value);
+                    setFieldValue('mainLanguage', value);
                   }}
                   options={languageOptions}
                 />
@@ -227,37 +224,15 @@ const ProfileSetup = memo(() => {
                 Study languages
               </label>
               <div className="flex flex-col w-full">
-                <Select
-                  allowClear
-                  placeholder="Please select"
-                  defaultValue={loggedUser?.otherLanguages[0]?.language ?? "EN"}
-                  onChange={(value) => {
-                    setFieldValue("otherLanguages", [
-                      {
-                        language: value,
-                        level: "1",
-                      },
-                    ]);
-                  }}
+                <CustomCascader
                   options={languageOptions}
+                  values={loggedUser?.otherLanguages ?? []}
+                  onChangeField={
+                    (value) => setFieldValue('otherLanguages', value)
+                    // eslint-disable-next-line react/jsx-curly-newline
+                  }
                 />
               </div>
-              {values.otherLanguages && (
-                <div className="flex flex-col w-full my-2">
-                  <label className="block text-gray-700 dark:text-white dark:text-opacity-85  text-sm font-bold mb-2">
-                    Level of
-                  </label>
-                  <Select
-                    allowClear
-                    placeholder="Please select"
-                    defaultValue={loggedUser?.otherLanguages[0]?.level ?? "4"}
-                    onChange={(value) => {
-                      setFieldValue("otherLanguages[0].level", value);
-                    }}
-                    options={levelsOptions}
-                  />
-                </div>
-              )}
             </div>
             <button type="submit" className="w-max mt-4 self-end button">
               Submit
@@ -267,6 +242,6 @@ const ProfileSetup = memo(() => {
       </Formik>
     </div>
   );
-});
+};
 
 export default ProfileSetup;
