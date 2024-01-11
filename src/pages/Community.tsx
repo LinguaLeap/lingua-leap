@@ -82,12 +82,16 @@ function Community() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 content-wrapper p-4 bg-white dark:bg-sky-blue-800 dark:bg-opacity-50 border dark:border-sky-blue-800 rounded-md">
-        {mutation &&
-          !mutation.isError &&
-          data?.pages
-            ?.flatMap((page) => page.users)
-            // eslint-disable-next-line no-underscore-dangle
-            .map((user: UserType) => <UserCard key={user._id} user={user} />)}
+        {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          mutation &&
+            !mutation.isError &&
+            data?.pages
+              ?.flatMap((page) => page.users)
+              // eslint-disable-next-line no-underscore-dangle
+              .map((user: UserType) => <UserCard key={user._id} user={user} />)
+        }
 
         {(mutation.error as Error) && !mutation.isLoading && (
           <div className="text-center text-gray-500 dark:text-white">
