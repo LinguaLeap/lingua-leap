@@ -1,10 +1,10 @@
-import { FieldProps } from "formik";
-import { SingleValue, MultiValue } from "react-select";
-import { NotificationEnum } from "../enums";
+import { FieldProps } from 'formik';
+import { SingleValue, MultiValue } from 'react-select';
+import { NotificationEnum } from '../enums';
 
 export enum LanguageCardNum {
-  STUDY = "Study languages",
-  MAIN = "My Languages",
+  STUDY = 'Study languages',
+  MAIN = 'My Languages',
 }
 
 export type LanguageCardType = {
@@ -20,7 +20,7 @@ export type LoginType = {
 
 export type StudyLanguages = {
   language: string;
-  level: string;
+  level: number;
 };
 
 export type UpdateProfileType = {
@@ -74,3 +74,17 @@ export type NotificationType = {
   message: string;
   onClose: () => void;
 };
+
+export type FiltersType = {
+  gender?: string;
+  country?: string;
+  language?: string;
+  level?: string;
+  startAge?: number;
+  endAge?: number;
+};
+
+export interface MessageListParams {
+  conversationId: string;
+  page: number;
+}

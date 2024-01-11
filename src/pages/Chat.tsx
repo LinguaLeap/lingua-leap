@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConversationsList from '../components/Chat/Conversations/ConversationsList';
 import Messages from '../components/Chat/Messages/Messages';
 import { useSocket } from '../contexts/SocketIO';

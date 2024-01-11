@@ -1,5 +1,5 @@
 [
   { "label": "Male", "value": "1" },
-  { "label": "Fema", "value": "AX" },
-  { "label": "Albania", "value": "AL" }
+  { "label": "Female", "value": "2" },
+  { "label": "Other", "value": "3" }
 ]

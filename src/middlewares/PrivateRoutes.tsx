@@ -1,7 +1,8 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+/* eslint-disable operator-linebreak */
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
-const PrivateRoutes = () => {
+function PrivateRoutes() {
   const { loggedUser, isLoading } = useAuth();
   const location = useLocation();
 
@@ -26,6 +27,6 @@ const PrivateRoutes = () => {
     return <Navigate to="/setup-profile" state={{ from: location }} replace />;
   }
   return <Outlet />;
-};
+}
 
 export default PrivateRoutes;
