@@ -1,18 +1,22 @@
-import { useFormik } from "formik";
-import GoogleButton from "../common/GoogleButton";
-import * as Yup from "yup";
-import { fetchLogin } from "../../api/api";
-import { memo, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { Input } from "antd";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/display-name */
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Input } from 'antd';
+import { AxiosError } from 'axios';
+import GoogleButton from '../common/GoogleButton';
+import { fetchLogin } from '../../api/api';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string().min(6).required(),
 });
 
-const LoginForm = memo(() => {
+function LoginForm() {
   /* we must work with it const [error, setError] = useState<NotificationType | null>(null);
     const hadleCloseNotification = () => {
         setError(null);
@@ -22,18 +26,21 @@ const LoginForm = memo(() => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       try {
         const loginResponse = await fetchLogin(values);
+        console.log(loginResponse);
         if (loginResponse.data.token) {
           login(loginResponse.data.token);
         }
       } catch (error) {
-        setStatus(error.response.data.message);
+        if (error instanceof AxiosError) {
+          setStatus(error.response?.data.message);
+        }
       }
     },
   });
@@ -62,7 +69,7 @@ const LoginForm = memo(() => {
         </div>
         {status && (
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-2"
             role="alert"
           >
             <span className="block sm:inline">{status}</span>
@@ -88,8 +95,8 @@ const LoginForm = memo(() => {
               value={formik.values.email}
               className={
                 formik.errors.email && formik.touched.email
-                  ? "shadow appearance-none border-red-500 rounded w-full py-2 px-3 text-sky-blue-700  dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  : "shadow appearance-none rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85 leading-tight focus:outline-none focus:shadow-outline"
+                  ? 'shadow appearance-none border-red-500 rounded w-full py-2 px-3 text-sky-blue-700  dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline'
+                  : 'shadow appearance-none rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85 leading-tight focus:outline-none focus:shadow-outline'
               }
             />
             {formik.errors.email && formik.touched.email && (
@@ -112,8 +119,8 @@ const LoginForm = memo(() => {
               placeholder="password..."
               className={
                 formik.errors.password && formik.touched.password
-                  ? "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  : "shadow appearance-none border rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  leading-tight focus:outline-none focus:shadow-outline"
+                  ? 'shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  mb-3 leading-tight focus:outline-none focus:shadow-outline'
+                  : 'shadow appearance-none border rounded w-full py-2 px-3 text-sky-blue-700 dark:bg-white dark:border-white  dark:bg-opacity-85 dark:border-opacity-85  leading-tight focus:outline-none focus:shadow-outline'
               }
               id="password"
             />
@@ -133,5 +140,5 @@ const LoginForm = memo(() => {
       </div>
     </>
   );
-});
+}
 export default LoginForm;
