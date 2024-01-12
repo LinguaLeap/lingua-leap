@@ -10,6 +10,7 @@ import UserCard from '../components/UserCard';
 import { UserType } from '../types/User';
 import Filters from '../components/Filters';
 import { FiltersType } from '../types/types';
+import Loading from '../components/common/Loading';
 
 function Community() {
   const [filters, setFilters] = useState<FiltersType>({});
@@ -71,8 +72,8 @@ function Community() {
           <Filters onSearch={applyFilters} filters={filters} />
         </div>
       )}
-      {(isLoading || isFetching) && 'Loading...'}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 content-wrapper p-4 bg-white dark:bg-sky-blue-800 dark:bg-opacity-50 border dark:border-sky-blue-800 rounded-md">
+        {(isLoading || isFetching) && <Loading />}
         {users.map((user: UserType) => (
           // eslint-disable-next-line no-underscore-dangle
           <UserCard key={user._id} user={user} />

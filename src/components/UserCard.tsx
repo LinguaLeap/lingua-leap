@@ -11,11 +11,9 @@ import { AiOutlineMessage } from 'react-icons/ai';
 import { UserType } from '../types/User';
 import NoPhoto from './common/NoPhoto';
 import countries from '../static/decodeCountry.json';
-import languages from '../static/decodeLanguage.json';
 
 function UserCard({ user }: { user: UserType }) {
   const decodeCountry: Record<string, string> = countries;
-  const decodeLanguage: Record<string, string> = languages;
   const navigate = useNavigate();
 
   const handleOpenProfile = (id: string) => {
@@ -66,30 +64,16 @@ function UserCard({ user }: { user: UserType }) {
             <div className="font-medium tracking-wide text-deep-navy-blue cursor-pointer dark:text-white dark:text-opacity-85">
               Speak:
             </div>
-            <ul>
-              {user?.mainLanguage.map((language, index) => (
-                <li key={index} className="text-deep-navy-blue dark:text-white">
-                  {language}
-                </li>
-              ))}
-            </ul>
+            <div className="text-deep-navy-blue dark:text-white">
+              {user?.mainLanguage.join(', ')}
+            </div>
           </div>
           <div className="grow basis-1 flex flex-row justify-start items-center gap-x-2">
             <div className="font-medium tracking-wide text-deep-navy-blue cursor-pointer dark:text-white dark:text-opacity-85">
               Learn:
             </div>
-            <div className="flex flex-row flex-wrap">
-              {user?.otherLanguages.map((language, index) => {
-                return (
-                  <span
-                    className=" text-deep-navy-blue dark:text-white"
-                    key={index}
-                    title={decodeLanguage[language?.language]}
-                  >
-                    {language?.language}
-                  </span>
-                );
-              })}
+            <div className="flex flex-row flex-wrap text-deep-navy-blue dark:text-white">
+              {user?.otherLanguages.map((lang) => lang.language).join(', ')}
             </div>
           </div>
           <div className="flex flex-row gap-x-3 ">

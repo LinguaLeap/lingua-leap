@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/require-default-props */
 import PacmanLoader from 'react-spinners/PacmanLoader';
 
-const Loading: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+interface LoadingType {
+  color?: string;
+  size?: number;
+}
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 8000);
-  }, []);
-
-  return <PacmanLoader color="#28d4d7" loading={loading} size={30} />;
-};
+function Loading({ color = '#28d4d7', size = 20 }: LoadingType) {
+  return (
+    <div className="flex flex-1 justify-center p-3">
+      <PacmanLoader color={color} loading size={size} />
+    </div>
+  );
+}
 
 export default Loading;
