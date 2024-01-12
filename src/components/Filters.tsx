@@ -100,8 +100,9 @@ export default function Filters({
                 placeholder="Select one or more level"
                 options={levelOptions}
                 value={values.level}
-                onChange={(value: number) => {
-                  setFieldValue('level', Number(value));
+                disabled={!values.language}
+                onChange={(value: string) => {
+                  setFieldValue('level', value);
                 }}
               />
             </div>
@@ -161,7 +162,7 @@ export default function Filters({
                 placeholder="Select one or more gender"
                 options={genderOptions}
                 value={values.gender}
-                onChange={(value: number) => setFieldValue('gender', Number(value))}
+                onChange={(value: string) => setFieldValue('gender', value)}
               />
               <ErrorMessage name="Gender" component="div" className="text-red-500" />
             </div>

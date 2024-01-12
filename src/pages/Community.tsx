@@ -1,3 +1,5 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable operator-linebreak */
@@ -5,6 +7,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useEffect, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { RxReset } from 'react-icons/rx';
+import { useInView } from 'react-intersection-observer';
 import { getFilteredUsersList } from '../api/api';
 import UserCard from '../components/UserCard';
 import { UserType } from '../types/User';
@@ -17,19 +20,15 @@ function Community() {
   const [users, setUsers] = useState<[]>([]);
   const [isVisibleFilters, setVisibleFilters] = useState<boolean>(false);
 
-  const {
-    /* error, */
-    isLoading,
-    isFetching,
-    data,
-  } = useInfiniteQuery(
-    ['users', filters],
-    ({ pageParam = 1 }) => getFilteredUsersList({ filters, pageParam }),
-    {
-      getNextPageParam: (lastPage) => lastPage.pageInfo.nextPage,
-      getPreviousPageParam: (firstPage) => firstPage.pageInfo.nextPage,
-    }
-  );
+  const { error, isLoading, isFetching, data, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ['users', filters],
+      ({ pageParam = 1 }) => getFilteredUsersList({ filters, pageParam }),
+      {
+        getNextPageParam: (lastPage) => lastPage.pageInfo.nextPage,
+        getPreviousPageParam: (firstPage) => firstPage.pageInfo.nextPage,
+      }
+    );
 
   useEffect(() => {
     // @ts-ignore
@@ -45,6 +44,29 @@ function Community() {
   const cleanFilter = () => {
     setFilters({});
   };
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight &&
+      inView &&
+      hasNextPage &&
+      !isFetching
+    ) {
+      fetchNextPage();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   // if (isLoading || isFetching) return 'Loading...';
   // if (error instanceof Error) return `An error has occurred: ${error.message}`;
@@ -72,18 +94,21 @@ function Community() {
           <Filters onSearch={applyFilters} filters={filters} />
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 content-wrapper p-4 bg-white dark:bg-sky-blue-800 dark:bg-opacity-50 border dark:border-sky-blue-800 rounded-md">
+      <div
+        ref={ref}
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 content-wrapper p-4 bg-white dark:bg-sky-blue-800 dark:bg-opacity-50 border dark:border-sky-blue-800 rounded-md"
+      >
         {(isLoading || isFetching) && <Loading />}
         {users.map((user: UserType) => (
           // eslint-disable-next-line no-underscore-dangle
           <UserCard key={user._id} user={user} />
         ))}
 
-        {/* {(mutation.error as Error) && !mutation.isLoading && (
+        {(error as Error) && !isLoading && (
           <div className="text-center text-gray-500 dark:text-white">
             No users found based on the current filters.
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );
