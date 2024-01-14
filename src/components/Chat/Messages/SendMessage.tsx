@@ -7,7 +7,7 @@ import { useSocket } from '../../../contexts/SocketIO';
 import { ConversationItemType, Message } from '../../../types/Conversations';
 
 type Props = {
-  conversation: ConversationItemType;
+  conversation: ConversationItemType | undefined | null;
   messages: Array<Message>;
   setMessages: (messages: Array<Message>) => void;
 };
@@ -16,7 +16,7 @@ function SendMessage({ conversation, messages, setMessages }: Props) {
   const { socket } = useSocket();
   const { loggedUser } = useAuth();
   const queryClient = useQueryClient();
-  const targetUser = conversation.conversation.participants.find(
+  const targetUser = conversation?.conversation.participants.find(
     (participant) => participant._id !== loggedUser?._id,
   );
 
@@ -29,7 +29,7 @@ function SendMessage({ conversation, messages, setMessages }: Props) {
     setMessages([
       {
         content: message,
-        conversationId: conversation.conversation._id,
+        conversationId: conversation?.conversation._id || '',
         senderId: {
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           _id: loggedUser?._id!,

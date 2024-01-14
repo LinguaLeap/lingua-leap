@@ -8,17 +8,16 @@ import Loading from '../Loading';
 
 type Props = {
   setConversation: (conversation: ConversationItemType) => void;
-  id: string | undefined;
+  // id: string | undefined;
 };
 
-function ConversationsList({ setConversation, id }: Props) {
+function ConversationsList({ setConversation /* , id */ }: Props) {
   const { isLoading, error, data } = useQuery('conversationList', getConversationsList);
 
   if (isLoading) {
     return <Loading />;
   }
-
-  if (id) {
+  /* if (id) {
     setConversation(
       data.find(
         (item: {
@@ -35,8 +34,7 @@ function ConversationsList({ setConversation, id }: Props) {
         ),
       ),
     );
-  }
-
+  } */
   // @ts-ignore
   if (error) return `An error has occurred: ${error.message}`;
 

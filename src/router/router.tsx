@@ -45,10 +45,6 @@ export const router = createBrowserRouter([
             path: '/messages',
             element: <Chat />,
           },
-          {
-            path: '/messages/:id',
-            element: <Chat />,
-          },
         ],
       },
       {
