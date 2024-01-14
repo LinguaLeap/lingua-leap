@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { router } from './router/router';
 import { AuthProvider } from './contexts/AuthContext';
 import { SocketProvider } from './contexts/SocketIO';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +14,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <SocketProvider>
-            <RouterProvider router={router} />
+            <NotificationProvider>
+              <RouterProvider router={router} />
+            </NotificationProvider>
           </SocketProvider>
         </AuthProvider>
       </QueryClientProvider>

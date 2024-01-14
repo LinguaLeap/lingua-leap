@@ -19,8 +19,8 @@ function UserCard({ user }: { user: UserType }) {
   const handleOpenProfile = (id: string) => {
     navigate(`/user/${id}`);
   };
-  const handleStartConversation = () => {
-    console.log('You click on Write Message Button');
+  const handleStartConversation = (id: string) => {
+    navigate(`/messages/${id}`);
   };
 
   function getFlagEmoji(countryCode: string = 'US') {
@@ -80,7 +80,7 @@ function UserCard({ user }: { user: UserType }) {
             <button
               title="message"
               className="button min-w-20 text-center z-10"
-              onClick={handleStartConversation}
+              onClick={() => handleStartConversation(user?._id)}
             >
               <span className="flex flex-row justify-center items-center gap-x-2 dark:text-white dark:text-opcaity-65">
                 <AiOutlineMessage />

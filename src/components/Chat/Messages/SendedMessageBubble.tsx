@@ -24,7 +24,9 @@ function SendedMessageBubble({ message }: Props) {
     <div className="mt-2">
       <div className="flex justify-end items-start gap-2.5">
         <div className="flex flex-col max-w-2xl min-w-80 leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl ">
-          <p className="text-sm font-normal py-2.5 text-gray-900">{message.content}</p>
+          <p className="text-sm font-normal py-2.5 text-gray-900 word-wrap">
+            {message.content}
+          </p>
           <div className="flex justify-start space-x-2">
             <span className="text-sm font-normal text-gray-500">
               {messageStatus(message.status)}
