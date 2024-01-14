@@ -16,7 +16,7 @@ import SendMessage from './SendMessage';
 import Loading from '../Loading';
 
 type Props = {
-  conversation: ConversationItemType /*  | undefined | null */;
+  conversation: ConversationItemType;
   messages: Array<Message>;
   setMessages: (messages: Array<Message>) => void;
 };
@@ -24,7 +24,7 @@ type Props = {
 function Messages({ conversation, messages, setMessages }: Props) {
   const { loggedUser } = useAuth();
   const [lastHeight, setLastHeight] = useState(null);
-  const conversationId = conversation?.conversation._id;
+  const conversationId = conversation.conversation._id;
   const queryClient = useQueryClient();
 
   const {
@@ -71,7 +71,7 @@ function Messages({ conversation, messages, setMessages }: Props) {
     }
   }, [messages.length, lastHeight]);
 
-  if (isLoading && conversation) {
+  if (isLoading) {
     return <Loading />;
   }
   // if (error) return "An error has occurred: " + error.message;
@@ -81,46 +81,36 @@ function Messages({ conversation, messages, setMessages }: Props) {
       <div
         ref={messageContainer}
         className="overflow-y-auto pb-5"
-        style={{ maxHeight: 'calc(100vh - 170px)' }}
+        style={{ height: 'calc(100vh - 170px)' }}
       >
-        {conversation ? (
-          <div
-            ref={messageContainer}
-            className="overflow-y-auto pb-5"
-            style={{ maxHeight: 'calc(100vh - 170px)' }}
-          >
-            <InfiniteScroll
-              style={{ margin: '10px' }}
-              pageStart={1}
-              useWindow={false}
-              isReverse
-              loadMore={fetchNextPage}
-              hasMore={hasNextPage}
-              loader={(
-                <div className="loader" key={0}>
-                  Loading ...
-                </div>
-              )}
-            >
-              {messages
-                .slice()
-                .reverse()
-                .map(
-                  (
-                    message: Message,
-                    index: Key | null | undefined,
-                    // eslint-disable-next-line no-underscore-dangle
-                  ) => (message.senderId._id === loggedUser?._id ? (
-                    <SendedMessageBubble message={message} key={index?.toString()} />
-                  ) : (
-                    <ReceivedMessageBubble message={message} key={index?.toString()} />
-                  )),
-                )}
-            </InfiniteScroll>
-          </div>
-        ) : (
-          <>a</>
-        )}
+        <InfiniteScroll
+          style={{ margin: '10px' }}
+          pageStart={1}
+          useWindow={false}
+          isReverse
+          loadMore={fetchNextPage}
+          hasMore={hasNextPage}
+          loader={(
+            <div className="loader" key={0}>
+              Loading ...
+            </div>
+          )}
+        >
+          {messages
+            .slice()
+            .reverse()
+            .map(
+              (
+                message: Message,
+                index: Key | null | undefined,
+                // eslint-disable-next-line no-underscore-dangle
+              ) => (message.senderId._id === loggedUser?._id ? (
+                <SendedMessageBubble message={message} key={index?.toString()} />
+              ) : (
+                <ReceivedMessageBubble message={message} key={index?.toString()} />
+              )),
+            )}
+        </InfiniteScroll>
       </div>
       <div className="flex">
         <SendMessage
