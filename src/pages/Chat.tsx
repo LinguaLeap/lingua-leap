@@ -3,7 +3,6 @@
 /* eslint-disable no-underscore-dangle */
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
 import ConversationsList from '../components/Chat/Conversations/ConversationsList';
 import Messages from '../components/Chat/Messages/Messages';
 import { useSocket } from '../contexts/SocketIO';
@@ -12,7 +11,7 @@ import { ConversationItemType, Message } from '../types/Conversations';
 import { useAuth } from '../contexts/AuthContext';
 
 function Chat() {
-  const { id } = useParams();
+  /* const { id } = useParams(); */
   const [conversation, setConversation] = useState<ConversationItemType | null>(null);
   const [messages, setMessages] = useState<Array<Message>>([]);
   const { socket } = useSocket();
@@ -56,10 +55,10 @@ function Chat() {
   return (
     <div className="flex flex-1">
       <div className="flex flex-1 w-1/6 min-w-[300px] border-r-2 bg-blue-50">
-        <ConversationsList setConversation={setConversation} id={id} />
+        <ConversationsList setConversation={setConversation} /* id={id} */ />
       </div>
       <div className="w-5/6 flex flex-2">
-        {conversation ? (
+        {conversation !== null ? (
           <div className="flex-1 p-2 bg-gray-50">
             <Messages
               key={conversation?.conversation._id}
