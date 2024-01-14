@@ -1,30 +1,40 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Key } from 'react';
 import { useQuery } from 'react-query';
-import { useEffect } from 'react';
 import { getConversationsList } from '../../../api/api';
 import ConversationItem from './ConversationItem';
 import { ConversationItemType } from '../../../types/Conversations';
+import Loading from '../Loading';
 
 type Props = {
-  conversationList: Array<ConversationItemType> | [];
-  setConversationList: (conversationList: Array<ConversationItemType> | []) => void;
   setConversation: (conversation: ConversationItemType) => void;
+  id: string | undefined;
 };
 
-function ConversationsList({
-  conversationList,
-  setConversationList,
-  setConversation,
-}: Props) {
+function ConversationsList({ setConversation, id }: Props) {
   const { isLoading, error, data } = useQuery('conversationList', getConversationsList);
 
-  useEffect(() => {
-    setConversationList(data as Array<ConversationItemType>);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  if (isLoading || !conversationList || conversationList?.length === 0) {
-    return 'Loading...';
+  if (id) {
+    setConversation(
+      data.find(
+        (item: {
+          conversation: {
+            participants: [
+              {
+                _id: string;
+              },
+            ];
+          };
+        }) => item.conversation.participants.find(
+          // eslint-disable-next-line no-underscore-dangle
+          (participant: { _id: string }) => participant._id === id,
+        ),
+      ),
+    );
   }
 
   // @ts-ignore
@@ -32,7 +42,7 @@ function ConversationsList({
 
   return (
     <div className="flex flex-1 flex-col">
-      {conversationList.map((conversation: ConversationItemType, index) => (
+      {data.map((conversation: ConversationItemType, index: Key) => (
         // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <button
           type="button"

@@ -18,7 +18,9 @@ function ReceivedMessageBubble({ message }: Props) {
               {`${message.senderId.givenName} ${message.senderId.familyName}`}
             </span>
           </div>
-          <p className="text-sm font-normal py-2.5 text-gray-900">{message.content}</p>
+          <p className="text-sm font-normal py-2.5 text-gray-900 word-wrap">
+            {message.content}
+          </p>
           <div className="flex justify-end space-x-2">
             <span className="text-sm font-normal text-gray-500">
               {moment(message.timestamp).format('LT')}

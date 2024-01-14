@@ -41,9 +41,12 @@ export const router = createBrowserRouter([
             path: '/edit-profile',
             element: <ProfileSetup />,
           },
-
           {
             path: '/messages',
+            element: <Chat />,
+          },
+          {
+            path: '/messages/:id',
             element: <Chat />,
           },
         ],

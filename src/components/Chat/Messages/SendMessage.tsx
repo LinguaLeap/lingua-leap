@@ -1,55 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-underscore-dangle */
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSocket } from '../../../contexts/SocketIO';
 import { ConversationItemType, Message } from '../../../types/Conversations';
 
 type Props = {
-  conversationList: Array<ConversationItemType> | [];
-  setConversationList: (conversationList: Array<ConversationItemType> | []) => void;
   conversation: ConversationItemType;
   messages: Array<Message>;
   setMessages: (messages: Array<Message>) => void;
 };
 
-function SendMessage({
-  conversationList,
-  setConversationList,
-  conversation,
-  messages,
-  setMessages,
-}: Props) {
+function SendMessage({ conversation, messages, setMessages }: Props) {
   const { socket } = useSocket();
   const { loggedUser } = useAuth();
+  const queryClient = useQueryClient();
   const targetUser = conversation.conversation.participants.find(
     (participant) => participant._id !== loggedUser?._id,
   );
-
-  useEffect(() => {
-    if (socket) {
-      socket?.on('receiveMessage', ({ fromUser, message }) => {
-        // @ts-expect-error
-        setMessages((prevMessages) => [
-          {
-            content: message.content,
-            conversationId: conversation.conversation._id,
-            senderId: {
-              _id: fromUser._id,
-              familyName: targetUser?.familyName,
-              givenName: targetUser?.givenName,
-            },
-            status: 2,
-            timestamp: message.timestamp,
-          },
-          ...prevMessages,
-        ]);
-        // console.log(messages[0])
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket]);
 
   const sendMessage = (message: string) => {
     socket?.emit('sendMessage', {
@@ -74,22 +43,7 @@ function SendMessage({
       ...messages,
     ]);
 
-    const conversationIndex = conversationList?.findIndex(
-      (conv) => conv.conversation._id === conversation.conversation._id,
-    );
-    if (conversationList.length !== 0 && conversationIndex) {
-      const updatedConversationList = [...conversationList];
-      // @ts-ignore
-      updatedConversationList[conversationIndex].lastMessage.senderId._id = loggedUser?._id;
-      updatedConversationList[conversationIndex].lastMessage.content = message;
-
-      if (conversationIndex > 0) {
-        updatedConversationList.unshift(
-          updatedConversationList.splice(conversationIndex, 1)[0],
-        );
-        setConversationList(updatedConversationList);
-      }
-    }
+    queryClient.refetchQueries(['conversationList']);
   };
 
   const formik = useFormik({
@@ -98,8 +52,10 @@ function SendMessage({
     },
     onSubmit: async (values) => {
       try {
-        sendMessage(values.message);
-        formik.setValues({ message: '' });
+        if (values.message !== '') {
+          sendMessage(values.message);
+          formik.setValues({ message: '' });
+        }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

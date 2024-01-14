@@ -4,7 +4,7 @@
 import {
   Key, useEffect, useRef, useState,
 } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 // @ts-expect-error
 import InfiniteScroll from 'react-infinite-scroller';
 import ReceivedMessageBubble from './ReceivedMessageBubble';
@@ -12,6 +12,8 @@ import SendedMessageBubble from './SendedMessageBubble';
 import { getMessageList } from '../../../api/api';
 import { useAuth } from '../../../contexts/AuthContext';
 import { ConversationItemType, Message } from '../../../types/Conversations';
+import SendMessage from './SendMessage';
+import Loading from '../Loading';
 
 type Props = {
   conversation: ConversationItemType;
@@ -23,6 +25,7 @@ function Messages({ conversation, messages, setMessages }: Props) {
   const { loggedUser } = useAuth();
   const [lastHeight, setLastHeight] = useState(null);
   const conversationId = conversation.conversation._id;
+  const queryClient = useQueryClient();
 
   const {
     fetchNextPage,
@@ -44,6 +47,7 @@ function Messages({ conversation, messages, setMessages }: Props) {
   useEffect(() => {
     // @ts-ignore
     setMessages(data?.pages.flatMap((page) => page.messages) || []);
+    queryClient.refetchQueries(['conversationList']);
   }, [data?.pages.length]);
 
   useEffect(() => {
@@ -55,7 +59,7 @@ function Messages({ conversation, messages, setMessages }: Props) {
         setLastHeight(scrollHeight);
       }
 
-      if (messages.length < 62) {
+      if (messages.length < 70) {
         // @ts-ignore
         messageContainer.current.scrollTop = scrollHeight;
       }
@@ -67,45 +71,56 @@ function Messages({ conversation, messages, setMessages }: Props) {
     }
   }, [messages.length, lastHeight]);
 
-  if (isLoading) return 'Loading...';
-
+  if (isLoading) {
+    return <Loading />;
+  }
   // if (error) return "An error has occurred: " + error.message;
   // console.log(data.pages[0].messages);
   return (
-    <div
-      ref={messageContainer}
-      className="overflow-y-auto pb-5"
-      style={{ maxHeight: 'calc(100vh - 170px)' }}
-    >
-      <InfiniteScroll
-        style={{ margin: '10px' }}
-        pageStart={1}
-        useWindow={false}
-        isReverse
-        loadMore={fetchNextPage}
-        hasMore={hasNextPage}
-        loader={(
-          <div className="loader" key={0}>
-            Loading ...
-          </div>
-        )}
+    <>
+      <div
+        ref={messageContainer}
+        className="overflow-y-auto pb-5"
+        style={{ maxHeight: 'calc(100vh - 170px)' }}
       >
-        {messages
-          .slice()
-          .reverse()
-          .map(
-            (
-              message: Message,
-              index: Key | null | undefined,
-              // eslint-disable-next-line no-underscore-dangle
-            ) => (message.senderId._id === loggedUser?._id ? (
-              <SendedMessageBubble message={message} key={index?.toString()} />
-            ) : (
-              <ReceivedMessageBubble message={message} key={index?.toString()} />
-            )),
+        <InfiniteScroll
+          style={{ margin: '10px' }}
+          pageStart={1}
+          useWindow={false}
+          isReverse
+          loadMore={fetchNextPage}
+          hasMore={hasNextPage}
+          loader={(
+            <div className="loader" key={0}>
+              Loading ...
+            </div>
           )}
-      </InfiniteScroll>
-    </div>
+        >
+          {messages
+            .slice()
+            .reverse()
+            .map(
+              (
+                message: Message,
+                index: Key | null | undefined,
+                // eslint-disable-next-line no-underscore-dangle
+              ) => (message.senderId._id === loggedUser?._id ? (
+                <SendedMessageBubble message={message} key={index?.toString()} />
+              ) : (
+                <ReceivedMessageBubble message={message} key={index?.toString()} />
+              )),
+            )}
+        </InfiniteScroll>
+      </div>
+      <div className="flex">
+        <SendMessage
+          key={conversation?.conversation._id}
+          conversation={conversation}
+          setMessages={setMessages}
+          messages={messages}
+        />
+      </div>
+    </>
   );
 }
 

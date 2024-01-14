@@ -17,7 +17,6 @@ import Loading from '../components/common/Loading';
 
 function Community() {
   const [filters, setFilters] = useState<FiltersType>({});
-  const [users, setUsers] = useState<[]>([]);
   const [isVisibleFilters, setVisibleFilters] = useState<boolean>(false);
 
   const { error, isLoading, isFetching, data, fetchNextPage, hasNextPage } =
@@ -29,12 +28,6 @@ function Community() {
         getPreviousPageParam: (firstPage) => firstPage.pageInfo.nextPage,
       }
     );
-
-  useEffect(() => {
-    // @ts-ignore
-    setUsers(data?.pages.flatMap((page) => page.users) || []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.pages.length, filters]);
 
   const applyFilters = (value: FiltersType) => {
     setFilters(value);
@@ -68,8 +61,13 @@ function Community() {
     };
   }, [handleScroll]);
 
-  // if (isLoading || isFetching) return 'Loading...';
-  // if (error instanceof Error) return `An error has occurred: ${error.message}`;
+  if (isLoading) {
+    return (
+      <div className="m-auto">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="container flex flex-col gap-y-4 mx-auto px-6 box-content relative">
@@ -98,18 +96,17 @@ function Community() {
         ref={ref}
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 content-wrapper p-4 bg-white dark:bg-sky-blue-800 dark:bg-opacity-50 border dark:border-sky-blue-800 rounded-md"
       >
-        {(isLoading || isFetching) && <Loading />}
-        {users.map((user: UserType) => (
+        {data?.pages.map((page) => page.users.map((user: UserType) => (
           // eslint-disable-next-line no-underscore-dangle
           <UserCard key={user._id} user={user} />
-        ))}
-
+        )))}
         {(error as Error) && !isLoading && (
           <div className="text-center text-gray-500 dark:text-white">
             No users found based on the current filters.
           </div>
         )}
       </div>
+      {isFetching && <Loading />}
     </div>
   );
 }
