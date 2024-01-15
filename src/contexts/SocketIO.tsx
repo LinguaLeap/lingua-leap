@@ -20,7 +20,7 @@ function SocketProvider({ children }: { children: ReactNode }) {
   const [socket, setSocket] = useState<null | Socket>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const soc = io('http://127.0.0.1:3000', { autoConnect: false });
+  const soc = io(import.meta.env.VITE_BACKEND_SOCKET, { autoConnect: false });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
