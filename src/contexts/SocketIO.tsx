@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { useAuth } from './AuthContext';
 
 interface SocketContextType {
   socket: null | Socket;
@@ -19,6 +20,7 @@ const SocketContext = createContext<SocketContextType>({
 function SocketProvider({ children }: { children: ReactNode }) {
   const [socket, setSocket] = useState<null | Socket>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const { loggedUser } = useAuth();
 
   const soc = io(import.meta.env.VITE_BACKEND_SOCKET, { autoConnect: false });
 
@@ -31,7 +33,7 @@ function SocketProvider({ children }: { children: ReactNode }) {
       setIsConnected(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [soc]);
+  }, [soc, loggedUser]);
 
   const values = useMemo(
     () => ({
